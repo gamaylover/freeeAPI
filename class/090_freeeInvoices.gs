@@ -11,7 +11,7 @@
  * 
  * メソッド
  * getURL() - 指定した条件の請求書一覧のリクエストURLを返すメソッド
- * getInvoices() - 請求書一覧を配列で取得するメソッド
+ * getAllInvoices() - 請求書一覧を配列で取得するメソッド
  * updateInvoicesSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの請求書一覧を更新するメソッド
  * 
  */
@@ -47,7 +47,7 @@ class Invoices {
       description: '',
       invoice_status: '',
       payment_status: '',
-      offset: '',
+      offset: '',　//
       limit: '100' // 取得レコードの件数 (デフォルト: 20, 最大: 100)
     }
   }
@@ -77,6 +77,12 @@ class Invoices {
    */
 
   getAllInvoices() {
+    
+    /* QUERY 絞り込み条件：取得レコードの件数上限のデータ型を変換 */
+    let limit = Number();
+    if (typeof this.queries.limit === 'number') { limit = this.queries.limit };
+    if (typeof this.queries.limit === 'string') { limit = Number(this.queries.limit) };
+    this.queries.limit = limit.toString();
 
     /* 指定した条件の請求書オブジェクト一覧を配列で取得 */
 
@@ -84,7 +90,7 @@ class Invoices {
     let aryInvoices = [];
 
     // 請求書取得件数の上限以上の請求書の登録がある場合にオフセット（ずらし）を行い全件を取得
-    for (let offset = 0; offset === aryInvoices.length; offset += this.queries.limit) {
+    for (let offset = 0; offset === aryInvoices.length; offset += limit) {
       this.queries.offset = offset;
       const url = this.getURL();
       const paramsGet = this.apiRequest.paramsGet;

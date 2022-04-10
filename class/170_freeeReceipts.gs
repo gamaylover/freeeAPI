@@ -41,7 +41,7 @@ class Receipts {
       comment_important: '',
       category: '',
       offset: '',
-      limit: ''
+      limit: '3000' // 取得レコードの件数 (デフォルト: 50, 最小: 1, 最大: 3000)
     }
   }
 

@@ -78,13 +78,19 @@ class Deals {
 
   getAllDeals() {
 
+    /* QUERY 絞り込み条件：取得レコードの件数上限のデータ型を変換 */
+    let limit = Number();
+    if (typeof this.queries.limit === 'number') { limit = this.queries.limit };
+    if (typeof this.queries.limit === 'string') { limit = Number(this.queries.limit) };
+    this.queries.limit = limit.toString();
+
     /* 指定した条件の取引オブジェクト一覧を配列で取得 */
 
     // 取引オブジェクト一覧を格納する空の配列
     let aryDeals = [];
 
     // 取引取得件数の上限以上の取引の登録がある場合にオフセット（ずらし）を行い全件を取得
-    for (let offset = 0; offset === aryDeals.length; offset += this.queries.limit) {
+    for (let offset = 0; offset === aryDeals.length; offset += limit) {
       this.queries.offset = offset;
       const url = this.getURL();
       const paramsGet = this.apiRequest.paramsGet;
