@@ -13,7 +13,7 @@ https://www.amazon.jp/hz/wishlist/ls/2SFC0DDCAAH1B?ref_=wl_share
 1ElufoYGO1vJKDyGawAvpXjkJ5nlH3846eeAEP1mRfUV1LYk8IwfpAfpX
 
 ## 使用上の注意
-2022/04/14 現在こちらのライブラリはBeta版です。
+2022/04/14 現在こちらのライブラリはBeta版です（おそらくずっと…）。
 本ライブラリを使用したことによって発生したいかなる結果の責任は負いかねますので、使用者の自己責任にてのみご使用ください。
 
 ## 事前準備
