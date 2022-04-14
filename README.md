@@ -5,6 +5,10 @@ A library for manipulating the freee API with Google Apps Script.
 
 [ノンプログラマーのためのスキルアップ研究会](https://tonari-it.com/community-nonpro-semi-2/)（以下ノンプロ研）で受講したfreee API講座の内容をベースに作成しています。
 
+## サポート
+Amazon欲しい物リスト：
+https://www.amazon.jp/hz/wishlist/ls/2SFC0DDCAAH1B?ref_=wl_share
+
 ## スクリプトID
 1ElufoYGO1vJKDyGawAvpXjkJ5nlH3846eeAEP1mRfUV1LYk8IwfpAfpX
 
