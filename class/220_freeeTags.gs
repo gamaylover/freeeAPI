@@ -114,7 +114,7 @@ class Tags {
     const objHeader = {
       id: 'タグID',
       company_id: '事業所ID',
-      name: '名前(30文字以内)',
+      name: 'メモタグ名 (30文字以内)',
       update_date: '更新日(yyyy-MM-dd)',
       shortcut1: 'ショートカット1 (255文字以内)',
       shortcut2: 'ショートカット2 (255文字以内)'
