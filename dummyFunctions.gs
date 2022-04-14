@@ -165,6 +165,68 @@ function updateTagsSheet(sheetName) {
   throw new Error('Tagsインスタンスを生成してから実行してください。');
 }
 
+/* 221 freee個別メモタグに関するクラス */
+
+/**
+ * Tagインスタンス生成後、指定したIDのメモタグを取得するメソッド
+ * @params  {number}  tag_id - メモタグID
+ * @return  {Object}  response - メモタグ情報を格納したオブジェクト
+ */
+
+function getTag(tag_id) {
+  throw new Error('Tagインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Tagインスタンス生成後、JSONオブジェクトからメモタグを登録するメソッド
+ * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @return  {Object}  response - メモタグ情報を格納したオブジェクト
+ */
+
+function postTag(payload) {
+  throw new Error('Tagインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Tagインスタンス生成後、日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを登録するメソッド
+ * @params  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
+ * @return  {Object}  response - メモタグ情報を格納したオブジェクト
+ */
+
+function postTagFromData(objData) {
+  throw new Error('Tagインスタンスを生成してから実行してください。');
+}
+/**
+ * Tagインスタンス生成後、JSONオブジェクトからメモタグを更新するメソッド
+ * @params  {number}  tag_id - メモタグID
+ * @params  {Object}  payload - 更新内容
+ * @return  {Object}  response - 更新されたメモタグオブジェクト
+ */
+
+function putTag(tag_id, payload) {
+  throw new Error('Tagインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Tagインスタンス生成後、日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを更新するメソッド
+ * @params  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
+ * @return  {Object}  response - メモタグ情報を格納したオブジェクト
+ */
+
+function putTagFromData(objData) {
+  throw new Error('Tagインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Tagインスタンス生成後、シート名で指定したシートのデータからメモタグを一括更新するメソッド
+ * @params  {string}  sheetName - 更新するメモタグの一覧が入力されているシート名
+ * @params  {string}  folderId - 更新前のメモタグ一覧のバックアップを保存したフォルダのID（デフォルト：ルートフォルダに保存）
+ */
+
+function renewTagsFromSheet(sheetName, folderId = '') {
+  throw new Error('Tagインスタンスを生成してから実行してください。');
+}
+
 /* ======================================================= */
 
 /* 100 freee品目一覧に関するクラス */
