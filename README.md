@@ -19,7 +19,7 @@ https://www.amazon.jp/hz/wishlist/ls/2SFC0DDCAAH1B?ref_=wl_share
 
 ## 事前準備
 このライブラリの使用には、freee APIを使用するための連携用のアプリの作成・設定、アプリとGASの認証設定を完了させておく必要があります。
-連携用のアプリの作成・設定・認証に関しては、ノンプロ研での講座受講時の講師であるもりさんの以下ブログを参照
+連携用のアプリの作成・設定・認証に関しては、作者のノンプロ研での講座受講時の講師であるもりさんの以下ブログを参照
 
 [【freee×GAS】GoogleAppsScriptでfreeeAPIと連携認証する（サンプルコードあり）](https://moripro.net/freee-gas-api/)
 
