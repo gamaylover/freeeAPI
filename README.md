@@ -32,3 +32,8 @@ https://www.amazon.jp/hz/wishlist/ls/2SFC0DDCAAH1B?ref_=wl_share
   - 事業所一覧の取得（GET）
 - Deals 取引（収入／支出）
   - 取引（収入／支出）一覧の取得（GET）
+
+この他にも色々対応していますが、readmeの更新が追いついていません。
+
+## 使い方
+ライブラリ追加後、freeeAPI.ファクトリ関数 で各項目に対応したインスタンスを生成することで、各種メソッドが使えます。
