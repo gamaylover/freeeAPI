@@ -37,7 +37,7 @@ class Invoices {
     this.queries = {
       partner_id: '',
       partner_code: '',
-      start_issue_date: new CalDate(dateAYearAgo).string, // デフォルトの取得取引開始日を1年前に設定
+      start_issue_date: new DateFormat(dateAYearAgo).string, // デフォルトの取得取引開始日を1年前に設定
       end_issue_date: '',
       start_due_date: '',
       end_due_date: '',

@@ -30,7 +30,8 @@ class ApiRequest {
 
     this.paramsGet = {
       headers: { Authorization: `Bearer ${this.accessToken}` },
-      method: 'get'
+      method: 'get',
+      muteHttpExceptions: false
     }
 
     this.paramsPost = {
