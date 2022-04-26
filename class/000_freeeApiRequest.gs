@@ -8,6 +8,7 @@
  * paramsGet - GETリクエスト用パラメータ
  * paramsPost - POSTリクエスト用パラメータ
  * paramsPut - PUTリクエスト用パラメータ
+ * paramsDelete - DELETEリクエスト用パラメータ
  * 
  * メソッド
  * fetchResponse(url, params)  - レスポンスのJSONをオブジェクトで返すメソッド
@@ -49,6 +50,12 @@ class ApiRequest {
       payload: '',
       muteHttpExceptions: false
     }
+
+    this.paramsDelete = {
+      headers: { Authorization: `Bearer ${this.accessToken}` },
+      method: 'delete',
+      muteHttpExceptions: false
+    }
   }
 
   /**
@@ -59,7 +66,7 @@ class ApiRequest {
    */
   fetchResponse(url, params) {
     const response = UrlFetchApp.fetch(url, params).getContentText();
-    return JSON.parse(response);
+    return JSON.parse(response || 'null'); // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Logical_OR
   }
 
 }
