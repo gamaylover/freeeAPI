@@ -85,6 +85,7 @@ class Receipts {
     this.apiRequest.paramsPost.headers.accept = 'application/json';
     this.apiRequest.paramsPost.headers.contentType = 'multipart/form-data';
     this.apiRequest.paramsPost.payload = payload;
+    this.apiRequest.paramsPost.muteHttpExceptions = true;
     const response = this.apiRequest.fetchResponse(url, this.apiRequest.paramsPost);
     return response;
   }

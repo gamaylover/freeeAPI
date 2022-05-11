@@ -12,8 +12,8 @@
  * gettag(tag_id) - 指定したIDのメモタグを取得するメソッド
  * postTag(payload) - JSONオブジェクトからメモタグを登録するメソッド
  * postTagFromData(objData) - 日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを登録するメソッド
- * putTag(payload) - JSONオブジェクトからメモタグを登録するメソッド
- * putTagFromData(objData) - 日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを登録するメソッド
+ * putTag(tag_id, payload) - JSONオブジェクトからメモタグを更新するメソッド
+ * putTagFromData(objData) - 日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを更新するメソッド
  * renewTagsFromSheet(sheetName, folderId = '') - シート名で指定したシートのデータからメモタグを一括更新するメソッド
  * 
  * 
@@ -114,7 +114,7 @@ class Tag {
 
   /**
    * 日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを更新するメソッド
-   * @params  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
+   * @params  {Object}  objData - this.objPutの各値（日本語）をプロパティにしたオブジェクト（登録内容）
    * @return  {Object}  response - メモタグ情報を格納したオブジェクト
    */
 

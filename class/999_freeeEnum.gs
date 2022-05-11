@@ -18,6 +18,7 @@
  * PAYMENT_TYPE - 支払方法種別
  * INVOICE_LAYOUT - 請求書レイアウト
  * TAX_ENTRY_METHOD - 請求書の消費税計算方法
+ * ENTRY_SIDE - 請求書の消費税計算方法
  * 
  * メソッド
  * convertValue2Key(enumType, trgValue) - 指定した列挙型Mapオブジェクトを参照して値からキーを返すメソッド
@@ -201,6 +202,12 @@ class Enum {
     this.TAX_ENTRY_METHOD = new Map([
       ['inclusive', '内税'],
       ['exclusive', '外税']
+    ]);
+
+    // 貸借
+    this.ENTRY_SIDE = new Map([
+      ['credit', '貸方'],
+      ['debit', '借方']
     ]);
 
   }

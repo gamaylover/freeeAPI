@@ -12,7 +12,7 @@
  * メソッド
  * getURL() - 指定した条件の取引一覧のリクエストURLを返すメソッド
  * getAllDeals() - 指定した条件の全ての取引一覧を配列で取得するメソッド
- * updateDealsSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの取引一覧を更新するメソッド
+ * getDeals2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの取引一覧を更新するメソッド
  * 
  */
 
@@ -39,7 +39,7 @@ class Deals {
       partner_code: '',
       status: '',
       type: '',
-      start_issue_date: new CalDate(dateAYearAgo).string, // デフォルトの取得取引開始日を1年前に設定
+      start_issue_date: new DateFormat(dateAYearAgo).string, // デフォルトの取得取引開始日を1年前に設定
       end_issue_date: '',
       start_due_date: '',
       end_due_date: '',
@@ -107,36 +107,38 @@ class Deals {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateDealsSheet(sheetName) {
+  getDeals2Sheet(sheetName) {
 
-    // freeeAPIのIDと収支区分が列挙されたMapオブジェクト
+    // 収支区分が列挙されたMapオブジェクト
     const mapDEAL_TYPE = new Enum().DEAL_TYPE;
 
-    // freeeAPIのIDと取引先名が列挙されたMapオブジェクト
+    // 取引先名が列挙されたMapオブジェクト
     const mapPartners = new Partners(this.accessToken, this.company_id).mapIdName();
 
-    // freeeAPIのIDと勘定科目名が列挙されたMapオブジェクト
+    // 勘定科目名が列挙されたMapオブジェクト
     const mapAccountItems = new AccountItems(this.accessToken, this.company_id).mapIdName();
 
     // freeeAPIのコードと税区分名が列挙されたMapオブジェクト
     const mapTaxes = new Taxes(this.accessToken, this.company_id).mapCodeName();
 
-    // freeeAPIのIDと品目名が列挙されたMapオブジェクト
+    // 品目名が列挙されたMapオブジェクト
     const mapItems = new Items(this.accessToken, this.company_id).mapIdName();
 
-    // freeeAPIのIDと部門名が列挙されたMapオブジェクト
+    // 部門名が列挙されたMapオブジェクト
     const mapSections = new Sections(this.accessToken, this.company_id).mapIdName();
 
-    // freeeAPIのIDとメモタグ名が列挙されたMapオブジェクト
+    // メモタグ名が列挙されたMapオブジェクト
     const mapTags = new Tags(this.accessToken, this.company_id).mapIdName();
 
-    // freeeAPIのIDと口座名が列挙されたMapオブジェクト
+    // 口座名が列挙されたMapオブジェクト
     const mapWallets = new Walletables(this.accessToken, this.company_id).mapIdName();
+
+    // 貸借が列挙されたMapオブジェクト
+    const mapENTRY_SIDE = new Enum().ENTRY_SIDE;
 
     // ここから必要なプロパティから値を取り出し、場合によっては変換していくメインの処理
     const aryDeals = this.getAllDeals();
     const objHeader = {
-      // 取引ID以外は、freeeエクスポートフォーマットに準拠
       id: '取引ID',
       type: '収支区分',
       ref_number: '管理番号',
@@ -144,6 +146,7 @@ class Deals {
       due_date: '支払期日 (yyyy-MM-dd)',
       partner_id: '取引先',
       details: {
+        id: '明細ID',
         account_item_id: '勘定科目',
         tax_code: '税区分',
         amount: '取引金額',
@@ -151,7 +154,8 @@ class Deals {
         description: '備考',
         item_id: '品目',
         section_id: '部門',
-        tag_ids: 'メモタグ'
+        tag_ids: 'メモタグ',
+        entry_side: '貸借'
       },
       payments: {
         date: '支払日',
@@ -173,12 +177,18 @@ class Deals {
       if (objHeaderFlat[key] === '部門') { return mapSections.get(obj[key]) };
       if (objHeaderFlat[key] === 'メモタグ' && Array.isArray(obj[key])) { return obj[key].map(tag_id => mapTags.get(tag_id)).join(',') };
       if (objHeaderFlat[key] === '口座') { return mapWallets.get(obj[key]) };
+      if (objHeaderFlat[key] === '貸借') { return mapENTRY_SIDE.get(obj[key]) };
+      if (objHeaderFlat[key] === '取引金額' && mapDEAL_TYPE.get(obj.type) === '支出' && mapENTRY_SIDE.get(obj.details__entry_side) === '貸方') { return -1 * obj[key] };
+      if (objHeaderFlat[key] === '消費税額' && mapDEAL_TYPE.get(obj.type) === '支出' && mapENTRY_SIDE.get(obj.details__entry_side) === '貸方') { return -1 * obj[key] };
+      if (objHeaderFlat[key] === '取引金額' && mapDEAL_TYPE.get(obj.type) === '収入' && mapENTRY_SIDE.get(obj.details__entry_side) === '借方') { return -1 * obj[key] };
+      if (objHeaderFlat[key] === '消費税額' && mapDEAL_TYPE.get(obj.type) === '収入' && mapENTRY_SIDE.get(obj.details__entry_side) === '借方') { return -1 * obj[key] };
       return obj[key];
     }));
     ary2D.unshift(headerValues);
 
     // 生成した2次元配列を事前にクリアしたスプレッドシートに追加
     const ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss.getSheets().filter(sheet => sheet.getName() === sheetName).length === 0) { ss.insertSheet(sheetName, 0); } // 同一のシート名がなければ新規作成する
     const sheet = ss.getSheetByName(sheetName);
     sheet.getDataRange().clearContent();
     const range = sheet.getRange(1, 1, ary2D.length, ary2D[0].length);

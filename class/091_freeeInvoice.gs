@@ -5,12 +5,14 @@
  * プロパティ
  * apiRequest - freeeAPIリクエストオブジェクト
  * url - リクエストURL
+ * accessToken - アクセストークン
  * company_id - 事業所ID
+ * objPost - POST用のキー項目
  * 
  * メソッド
  * getInvoice() - 指定したIDの請求書を取得するメソッド
  * postInvoice(payload) - JSONオブジェクトから請求書を登録するメソッド
- * postInvoiceFromData(invoiceContents) - 日本語ヘッダー項目をプロパティに持つオブジェクトから請求書を登録するメソッド
+ * postInvoicesFromSheet(sheetName) - シート名で指定したシートの請求データから一括して請求書を作成するメソッド
  * putInvoice(payload) - JSONオブジェクトから請求書を更新するメソッド
  * 
  */
@@ -61,7 +63,7 @@ class Invoice {
       payment_bank_info: '支払口座',
       use_virtual_transfer_account: '振込専用口座の利用',
       message: 'メッセージ',
-      notes: '備考',
+      notes: '請求書備考',
       invoice_layout: '請求書レイアウト',
       tax_entry_method: '請求書の消費税計算方法',
       invoice_contents: [{
@@ -87,11 +89,12 @@ class Invoice {
 
   /**
    * 指定したIDの請求書を取得するメソッド
+   * @params  {number}  invoice_id - 請求書ID
    * @return  {Object}  response - 請求書情報を格納したオブジェクト
    */
 
-  getInvoice() {
-    const url = `${this.url}/${this.invoice_id}`
+  getInvoice(invoice_id) {
+    const url = `${this.url}/${invoice_id}`
       + `?company_id=${this.company_id}`;
     const response = this.apiRequest.fetchResponse(url, this.apiRequest.paramsGet);
     Utilities.sleep(300);
@@ -112,21 +115,15 @@ class Invoice {
     return response.invoice;
   }
 
+
   /**
-   * 日本語ヘッダー項目をプロパティに持つオブジェクトから請求書を登録するメソッド
-   * @params  {Object}  invoiceContents - this.objPostの各値（日本語）をプロパティにしたオブジェクト（請求明細）を格納した配列
-   * @return  {Object}  response - 請求書情報を格納したオブジェクト
+   * シート名で指定したシートの請求データから一括して請求書を作成するメソッド
+   * @param   {string}  sheetName - 請求データを格納したシート名
+   * @param   {string}  groupKey - 複数の請求データを取りまとめるキーとなるヘッダー項目（デフォルト：請求番号）
+   * @return  {SpreadsheetApp.Range} データ登録した範囲のRangeオブジェクト
    */
 
-  postInvoiceFromData(invoiceContents) {
-
-    // POST用のオブジェクトを明細行オブジェクトを結合して作成
-
-    const newPostObjs = invoiceContents.map(objContent => {
-      objContent['事業所ID'] = this.company_id;
-      return ObjectJSON.overwriteValueLinkObj(this.objPost, objContent)
-    });
-    const newPostObj = ObjectJSON.convineObjs(this.objPost, newPostObjs);
+  postInvoicesFromSheet(sheetName, groupKey = '請求書番号') {
 
     /* 日本語で記述した値をシステム指定の値に変換 */
 
@@ -148,63 +145,91 @@ class Invoice {
     // freeeAPIのIDとメモタグ名が列挙されたMapオブジェクト
     const mapTags = new Tags(this.accessToken, this.company_id).mapIdName();
 
-    // freeeAPIのIDと口座名が列挙されたMapオブジェクト
-    const mapWallets = new Walletables(this.accessToken, this.company_id).mapIdName();
 
-    // 請求日
-    newPostObj.issue_date =
-      new DateFormat(newPostObj.issue_date).string
+    /**
+     * 日本語ヘッダー項目をプロパティに持つオブジェクトの配列から請求書1件（複数明細対応）ごとに登録していく関数
+     * @params  {Array.<Object>}  invoiceContents - this.objPostの各値（日本語）をプロパティにしたオブジェクト（請求明細）を格納した配列
+     * @return  {Object}  response - 請求書情報を格納したオブジェクト
+     */
 
-    // 期日
-    newPostObj.due_date =
-      new DateFormat(newPostObj.due_date).string
+    const postInvoiceFromData = invoiceContents => {
 
-    // 売上計上日
-    newPostObj.booking_date =
-      new DateFormat(newPostObj.booking_date).string
+      // POST用のオブジェクトを明細行オブジェクトを結合して作成
 
-    // 取引先
-    newPostObj.partner_id =
-      MapObject.convertValue2Key(mapPartners, newPostObj.partner_id);
+      const newPostObjs = invoiceContents.map(objContent => {
+        objContent['事業所ID'] = this.company_id;
+        return ObjectJSON.overwriteValueLinkObj(this.objPost, objContent)
+      });
+      const newPostObj = ObjectJSON.convineObjs(this.objPost, newPostObjs);
 
-    // 請求書ステータス
-    newPostObj.invoice_status =
-      new Enum().convertValue2Key('INVOICE_STATUS', newPostObj.invoice_status);
+      // 請求日
+      newPostObj.issue_date =
+        new DateFormat(newPostObj.issue_date).string
 
-    // 取引先都道府県
-    newPostObj.partner_prefecture_code =
-      new Enum().convertValue2Key('PREFECTURE_CODES', newPostObj.partner_prefecture_code);
+      // 期日
+      newPostObj.due_date =
+        new DateFormat(newPostObj.due_date).string
 
-    // 事業所都道府県
-    newPostObj.company_prefecture_code =
-      new Enum().convertValue2Key('PREFECTURE_CODES', newPostObj.company_prefecture_code);
+      // 売上計上日
+      newPostObj.booking_date =
+        new DateFormat(newPostObj.booking_date).string
 
-    // 支払方法種別
-    newPostObj.payment_type =
-      new Enum().convertValue2Key('PAYMENT_TYPE', newPostObj.payment_type);
+      // 取引先
+      newPostObj.partner_id =
+        MapObject.convertValue2Key(mapPartners, newPostObj.partner_id);
 
-    // 請求書レイアウト
-    newPostObj.invoice_layout =
-      new Enum().convertValue2Key('INVOICE_LAYOUT', newPostObj.invoice_layout);
+      // 請求書ステータス
+      newPostObj.invoice_status =
+        new Enum().convertValue2Key('INVOICE_STATUS', newPostObj.invoice_status);
 
-    // 請求書の消費税計算方法
-    newPostObj.tax_entry_method =
-      new Enum().convertValue2Key('TAX_ENTRY_METHOD', newPostObj.tax_entry_method);
+      // 取引先都道府県
+      newPostObj.partner_prefecture_code =
+        new Enum().convertValue2Key('PREFECTURE_CODES', newPostObj.partner_prefecture_code);
 
-    // メモタグ
-    newPostObj.invoice_contents.forEach(content => {
-      content.type = new Enum().convertValue2Key('INVOICE_CONTENTS_TYPE', content.type);
-      content.account_item_id = MapObject.convertValue2Key(mapAccountItems, content.account_item_id);
-      content.tax_code = MapObject.convertValue2Key(mapTaxes, content.tax_code);
-      content.item_id = MapObject.convertValue2Key(mapItems, content.item_id);
-      content.section_id = MapObject.convertValue2Key(mapSections, content.section_id);
-      content.tag_ids = content.tag_ids.split(',').map(tagName => MapObject.convertValue2Key(mapTags, tagName));
+      // 事業所都道府県
+      newPostObj.company_prefecture_code =
+        new Enum().convertValue2Key('PREFECTURE_CODES', newPostObj.company_prefecture_code);
+
+      // 支払方法種別
+      newPostObj.payment_type =
+        new Enum().convertValue2Key('PAYMENT_TYPE', newPostObj.payment_type);
+
+      // 請求書レイアウト
+      newPostObj.invoice_layout =
+        new Enum().convertValue2Key('INVOICE_LAYOUT', newPostObj.invoice_layout);
+
+      // 請求書の消費税計算方法
+      newPostObj.tax_entry_method =
+        new Enum().convertValue2Key('TAX_ENTRY_METHOD', newPostObj.tax_entry_method);
+
+      // 請求明細
+      newPostObj.invoice_contents.forEach(content => {
+        content.type = new Enum().convertValue2Key('INVOICE_CONTENTS_TYPE', content.type);
+        content.account_item_id = MapObject.convertValue2Key(mapAccountItems, content.account_item_id);
+        content.tax_code = MapObject.convertValue2Key(mapTaxes, content.tax_code);
+        content.item_id = MapObject.convertValue2Key(mapItems, content.item_id);
+        content.section_id = MapObject.convertValue2Key(mapSections, content.section_id);
+        if (content.tag_ids) { content.tag_ids = content.tag_ids.split(',').map(tagName => MapObject.convertValue2Key(mapTags, tagName)) };
+      });
+
+      /* ブランク等不要なプロパティを削除 */
+      ObjectJSON.deleteBlankProperties(newPostObj);
+      return this.postInvoice(newPostObj);
+    }
+
+    /* シートの指定した同一のgroupKeyごとにPOSTしていく処理 */
+
+    const postInvoices_DataSheet = new DataSheet(sheetName);
+    const uniqueKeys = postInvoices_DataSheet.getUniqueKeys(groupKey);
+    const invoicesObjs = postInvoices_DataSheet.rangeToDataObjs();
+
+    uniqueKeys.forEach(key => {
+      const invoiceContents = invoicesObjs.filter(content => content[groupKey] === key);
+      postInvoiceFromData(invoiceContents);
     });
 
-    /* ブランク等不要なプロパティを削除 */
-    ObjectJSON.deleteBlankProperties(newPostObj);
-
-    return this.postInvoice(newPostObj);
+    // 戻り値として更新したセル範囲
+    return postInvoices_DataSheet.rangeData;
 
   }
 

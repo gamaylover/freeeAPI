@@ -99,7 +99,11 @@ class ObjectJSON {
 
   static overwriteValueLinkObj(objTemp, objData) {
 
-    const newObj = Object.assign({}, objTemp);
+    // const newObj = Object.assign({}, objTemp);
+    const newObj = JSON.parse(JSON.stringify(objTemp));
+    // https://codelikes.com/javascript-object-assign-spread/
+    // https://kuroeveryday.blogspot.com/2017/05/deep-clone-object-in-javascript.html
+
     Object.keys(newObj).forEach(key => {
       const value = newObj[key];
 
@@ -142,7 +146,12 @@ class ObjectJSON {
 
   static convineObjs(objTemp, arrayObjs) {
     const length = arrayObjs.length;
-    const convinedObj = Object.assign({}, objTemp);
+    
+    // const convinedObj = Object.assign({}, objTemp);
+    const convinedObj = JSON.parse(JSON.stringify(objTemp));
+    // https://codelikes.com/javascript-object-assign-spread/
+    // https://kuroeveryday.blogspot.com/2017/05/deep-clone-object-in-javascript.html
+    
     for (let i = 0; i < length; i++) {
       const obj = arrayObjs[i];
       const keys = Object.keys(obj);

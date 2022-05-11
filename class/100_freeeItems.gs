@@ -127,6 +127,7 @@ class Items {
     ary2D.unshift(headerValues);
 
     const ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss.getSheets().filter(sheet => sheet.getName() === sheetName).length === 0) { ss.insertSheet(sheetName, 0); } // 同一のシート名がなければ新規作成する
     const sheet = ss.getSheetByName(sheetName);
     sheet.getDataRange().clearContent();
     const range = sheet.getRange(1, 1, ary2D.length, ary2D[0].length);
