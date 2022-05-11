@@ -12,7 +12,7 @@
  * メソッド
  * getURL() - 指定した条件の請求書一覧のリクエストURLを返すメソッド
  * getAllInvoices() - 請求書一覧を配列で取得するメソッド
- * updateInvoicesSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの請求書一覧を更新するメソッド
+ * getInvoices2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの請求書一覧を取得するメソッド
  * 
  */
 
@@ -77,7 +77,7 @@ class Invoices {
    */
 
   getAllInvoices() {
-    
+
     /* QUERY 絞り込み条件：取得レコードの件数上限のデータ型を変換 */
     let limit = Number();
     if (typeof this.queries.limit === 'number') { limit = this.queries.limit };
@@ -102,12 +102,12 @@ class Invoices {
   }
 
   /**
-   * アクティブなスプレッドシートのシート名で指定したシートの請求書一覧を更新するメソッド
-   * @param   {string}  sheetName - 請求書一覧を更新したいシート名
+   * アクティブなスプレッドシートのシート名で指定したシートの請求書一覧を取得するメソッド
+   * @param   {string}  sheetName - 請求書一覧を取得するシート名
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateInvoicesSheet(sheetName) {
+  getInvoices2Sheet(sheetName) {
 
     // freeeAPIのIDと請求書ステータスがペアになったMapオブジェクト
     const mapINVOICE_STATUS = new Enum().INVOICE_STATUS;
@@ -238,12 +238,12 @@ class Invoices {
 
     // 生成した2次元配列を事前にクリアしたスプレッドシートに追加
     const ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss.getSheets().filter(sheet => sheet.getName() === sheetName).length === 0) { ss.insertSheet(sheetName, 0); } // 同一のシート名がなければ新規作成する
     const sheet = ss.getSheetByName(sheetName);
     sheet.getDataRange().clearContent();
     const range = sheet.getRange(1, 1, ary2D.length, ary2D[0].length);
     return range.setValues(ary2D);
   }
-
 }
 
 /**

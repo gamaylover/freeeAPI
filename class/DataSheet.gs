@@ -4,6 +4,7 @@
  * 
  * rangeToMapObjs(range) - データ範囲から、ヘッダー項目をキーにした各データ行のMapオブジェクトを格納した配列を戻り値として返すメソッド
  * rangeToDataObjs(range) - データ範囲から、ヘッダー項目をプロパティにオブジェクト化した各行を格納した配列を戻り値として返すメソッド
+ * getUniqueKeys(sheetName, filterKey)  - シート名とヘッダー項目で指定した列内のデータの重複を削除した配列を返すメソッド
  * addDataSheet(ary2D) - スプレッドシートの指定のシートの最終行に2次元配列のデータを追加するメソッド
  * clearDataSheet() - スプレッドシートの指定のシートのヘッダー行以外を削除するメソッド
  * clearSetData(ary2D, row, column) - スプレッドシートの指定のシートに2次元配列のデータを追加する関数
@@ -74,6 +75,21 @@ class DataSheet {
     return dataObjs;
   }
 
+  /**
+   * ヘッダー項目で指定した列内のデータの重複を削除した配列を返すメソッド
+   *
+   * @param    {string}  filterKey - 操作したい列のヘッダー項目
+   * @param    {Range}   range - ヘッダー行とデータ行で構成されるrangeオブジェクト
+   * @return   {Array}   uniqueKeys - 指定シート・列の重複を削除した値の配列
+   */
+
+  getUniqueKeys(filterKey, range = this.rangeData) {
+    const mapObjs = this.rangeToMapObjs(range);
+    const keys = mapObjs.map(objMap => objMap.get(filterKey));
+    const uniqueKeys = Array.from(new Set(keys)).filter(key => key !== ''); // https://qiita.com/netebakari/items/7c1db0b0cea14a3d4419
+    return uniqueKeys;
+  }
+  
   /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = */
 
   /** シートにデータを追加するメソッド一覧 */

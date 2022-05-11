@@ -6,6 +6,7 @@
  * date - Dateオブジェクト
  * 
  * メソッド
+ * lastSaturday() - 基準日の前回の土曜日のDateオブジェクトを返すメソッド
  * endThisMonth() - 基準日月末日のDateオブジェクトを返すメソッド
  * endNextMonth() - 基準日翌月末日のDateオブジェクトを返すメソッド
  * endLastMonth() - 基準日前月末日のDateオブジェクトを返すメソッド
@@ -28,6 +29,16 @@ class CalDate {
    */
   constructor(date = new Date()) {
     this.date = new Date(date);
+  }
+
+  lastSaturday() {
+    const indexSat = 6
+    const indexToday = this.date.getDay();
+    if (indexToday === indexSat) { return new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 7) };
+    if (indexToday < indexSat) {
+      const difference = indexSat - indexToday - 7;
+      return new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() + difference);
+    };
   }
 
   /**

@@ -99,6 +99,16 @@ function getPartner() {
 }
 
 /**
+ * Partnerインスタンス生成後、指定した名称の取引先IDを返すメソッド
+ * @param   {string}  partner_name - 取引先名
+ * @return  {number}  partner_id - 事業所ID
+ */
+
+function getPartnerId(partner_name) {
+  throw new Error('Partnerインスタンスを生成してから実行してください。');
+}
+
+/**
  * Partnerインスタンス生成後、JSONオブジェクトから取引先を登録するメソッド
  * @params  {Object}  payload - 登録する内容のJSONオブジェクト
  * @return  {Object}  response - 取引先情報を格納したオブジェクト
@@ -308,7 +318,7 @@ function updateItemsSheet(sheetName) {
  * @return  {Array.<Object>}  aryTaxes - 全ての税区分オブジェクトを格納した配列
  */
 
-function getTaxes() {
+function getAllTaxes() {
   throw new Error('Taxesインスタンスを生成してから実行してください。');
 }
 
@@ -374,8 +384,33 @@ function getAllDeals() {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateDealsSheet(sheetName) {
+function getDeals2Sheet(sheetName) {
   throw new Error('Dealsインスタンスを生成してから実行してください。');
+}
+
+/* ======================================================= */
+
+/* 061 freee個別取引に関するクラス */
+
+/**
+ * JSONオブジェクトから取引を更新するメソッド
+ * @params  {number}  deal_id - 取引ID
+ * @params  {Object}  payload - 更新内容
+ * @return  {Object}  response - 更新された取引オブジェクト
+ */
+
+function putDeal(deal_id, payload) {
+  throw new Error('Dealインスタンスを生成してから実行してください。');
+}
+
+/**
+ * シート名で指定したシートの取引データから一括して取引を更新するメソッド
+ * @param   {string}  sheetName - 請求データを格納したシート名
+ * @return  {SpreadsheetApp.Range} データ登録した範囲のRangeオブジェクト
+ */
+
+function putDealsFromSheet(sheetName) {
+  throw new Error('Dealインスタンスを生成してから実行してください。');
 }
 
 /* ======================================================= */
@@ -397,7 +432,7 @@ function getAllInvoices() {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateInvoicesSheet(sheetName) {
+function getInvoices2Sheet(sheetName) {
   throw new Error('Invoicesインスタンスを生成してから実行してください。');
 }
 
@@ -423,12 +458,13 @@ function postInvoice(payload) {
 }
 
 /**
- * Invoiceインスタンス生成後、日本語ヘッダー項目をプロパティに持つオブジェクトから請求書を登録するメソッド
- * @params  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
- * @return  {Object}  response - 請求書情報を格納したオブジェクト
+ * Invoiceインスタンス生成後、シート名で指定したシートの請求データから一括して請求書を作成するメソッド
+ * @param   {string}  sheetName - 請求データを格納したシート名
+ * @param   {string}  groupKey - 複数の請求データを取りまとめるキーとなるヘッダー項目（デフォルト：請求番号）
+ * @return  {SpreadsheetApp.Range} データ登録した範囲のRangeオブジェクト
  */
 
-function postInvoiceFromData(objData) {
+function postInvoicesFromSheet(sheetName, groupKey = '請求書番号') {
   throw new Error('Invoiceインスタンスを生成してから実行してください。');
 }
 

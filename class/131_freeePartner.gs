@@ -10,6 +10,7 @@
  * 
  * メソッド
  * getPartner(partner_id) - 指定したIDの取引先を取得するメソッド
+ * getPartnerId(partner_name) - 指定した名称の取引先IDを返すメソッド
  * postPartner(payload) - JSONオブジェクトから取引先を登録するメソッド
  * postPartnerFromData(objData) - 日本語ヘッダー項目をプロパティに持つオブジェクトから取引先を登録するメソッド
  * putPartner(partner_id, payload) - JSONオブジェクトから取引先を更新するメソッド
@@ -147,6 +148,19 @@ class Partner {
     const response = this.apiRequest.fetchResponse(url, this.apiRequest.paramsGet);
     Utilities.sleep(300);
     return response.partner;
+  }
+
+  /**
+   * 指定した名称の取引先IDを返すメソッド
+   * @param   {string}  partner_name - 取引先名
+   * @return  {number}  partner_id - 事業所ID
+   */
+
+  getPartnerId(partner_name) {
+    const aryPartners = this.getAllPartners();
+    const partner = aryPartners.filter(partner => partner.name === partner_name);
+    if (partner.length === 0) { throw new Error('該当する取引先がありません') };
+    if (partner.length === 1) { return partner[0].id };
   }
 
   /**
