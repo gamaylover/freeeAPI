@@ -231,7 +231,7 @@ class Invoices {
       if (objHeaderFlat[key] === '請求書の消費税計算方法') { return mapTAX_ENTRY_METHOD.get(obj[key]) };
       if (objHeaderFlat[key] === '行の種類') { return mapINVOICE_CONTENTS_TYPE.get(obj[key]) };
       if (objHeaderFlat[key] === '税区分') { return mapTaxes.get(obj[key]) };
-      if (objHeaderFlat[key] === 'メモタグID' && Array.isArray(obj[key])) { return obj[key].join('/') };
+      if (objHeaderFlat[key] === 'メモタグID' && Array.isArray(obj[key])) { return obj[key].join(',') };
       return obj[key];
     }));
     ary2D.unshift(headerValues);

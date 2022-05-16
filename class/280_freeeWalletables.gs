@@ -12,7 +12,7 @@
  * getURL() - 指定した条件の口座一覧のリクエストURLを返すメソッド
  * getAllWalletables() - 全ての口座一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDと口座名が列挙されたMapオブジェクトを生成するメソッド
- * updateWalletablesSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの口座一覧を更新するメソッド
+ * getWalletables2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの口座一覧を更新するメソッド
  * 
  * 
  */
@@ -89,7 +89,7 @@ class Walletables {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateWalletablesSheet(sheetName) {
+  getWalletables2Sheet(sheetName) {
 
     // freeeAPIのIDと口座区分が列挙されたMapオブジェクト
     const mapWALLET_TYPE = new Enum().WALLET_TYPE;

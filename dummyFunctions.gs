@@ -26,7 +26,7 @@ function getAccountItemId(accountItem_name) {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateAccountItemsSheet(sheetName) {
+function getAccountItems2Sheet(sheetName) {
   throw new Error('AccountItemsインスタンスを生成してから実行してください。');
 }
 
@@ -59,7 +59,7 @@ function getMyCompanyId(company_name) {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateMyCompaniesSheet(sheetName) {
+function getMyCompanies2Sheet(sheetName) {
   throw new Error('MyCompaniesインスタンスを生成してから実行してください。');
 }
 
@@ -83,7 +83,7 @@ function getAllPartners() {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updatePartnersSheet(sheetName) {
+function getPartners2Sheet(sheetName) {
   throw new Error('Partnersインスタンスを生成してから実行してください。');
 }
 
@@ -197,7 +197,7 @@ function getAllSections() {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateSectionsSheet(sheetName) {
+function getSections2Sheet(sheetName) {
   throw new Error('Sectionsインスタンスを生成してから実行してください。');
 }
 
@@ -220,7 +220,7 @@ function getAllTags() {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateTagsSheet(sheetName) {
+function getTags2Sheet(sheetName) {
   throw new Error('Tagsインスタンスを生成してから実行してください。');
 }
 
@@ -305,8 +305,65 @@ function getAllItems() {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateItemsSheet(sheetName) {
+function getItems2Sheet(sheetName) {
   throw new Error('Itemsインスタンスを生成してから実行してください。');
+}
+
+
+/* ======================================================= */
+
+/* 120 freee振替伝票に関するクラス */
+
+/**
+ * ManualJournalsインスタンスを生成後、指定した条件の全ての振替伝票一覧を配列で取得するメソッド
+ * @return  {Array.<Object>}  aryManualJournals - freee振替伝票オブジェクトの一覧を格納した配列
+ */
+
+function getAllManualJournals() {
+  throw new Error('ManualJournalsインスタンインスタンスを生成してから実行してください。');
+}
+
+/**
+ * アクティブなスプレッドシートのシート名で指定したシートの振替伝票一覧を取得するメソッド
+ * @param   {string}  sheetName - 振替伝票一覧を取得したいシート名
+ * @return  {SpreadsheetApp.Range} データ取得した範囲のRangeオブジェクト
+ */
+
+function getManualJournals2Sheet(sheetName) {
+  throw new Error('ManualJournalsインスタンインスタンスを生成してから実行してください。');
+}
+
+/* 121 freee個別振替伝票に関するクラス */
+
+/**
+ * ManualJournalインスタンスを生成後、指定したIDの振替伝票を取得するメソッド
+ * @params  {number}  manualJournal_id - 振替伝票ID
+ * @return  {Object}  response - 振替伝票情報を格納したオブジェクト
+ */
+
+function getManualJournal(manualJournal_id) {
+  throw new Error('ManualJournalインスタンインスタンスを生成してから実行してください。');
+}
+
+/**
+ * ManualJournalインスタンスを生成後、JSONオブジェクトから振替伝票を登録するメソッド
+ * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @return  {Object}  response - 振替伝票情報を格納したオブジェクト
+ */
+
+function postManualJournal(payload) {
+  throw new Error('ManualJournalインスタンインスタンスを生成してから実行してください。');
+}
+
+/**
+ * ManualJournalインスタンスを生成後、シート名で指定したシートの振替伝票データから一括して振替伝票を作成するメソッド
+ * @param   {string}  sheetName - 振替伝票データを格納したシート名
+ * @param   {string}  groupKey - 複数の振替伝票データを取りまとめるキーとなるヘッダー項目（デフォルト：グループキー）
+ * @return  {SpreadsheetApp.Range} データ登録した範囲のRangeオブジェクト
+ */
+
+function postManualJournalsFromSheet(sheetName, groupKey = 'グループキー') {
+  throw new Error('ManualJournalインスタンインスタンスを生成してから実行してください。');
 }
 
 /* ======================================================= */
@@ -338,7 +395,7 @@ function getTaxCode(tax_name) {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateTaxesSheet(sheetName) {
+function getTaxes2Sheet(sheetName) {
   throw new Error('Taxesインスタンスを生成してから実行してください。');
 }
 
@@ -361,7 +418,7 @@ function getAllWalletables() {
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
-function updateWalletablesSheet(sheetName) {
+function getWalletables2Sheet(sheetName) {
   throw new Error('Walletablesインスタンスを生成してから実行してください。');
 }
 
@@ -388,12 +445,31 @@ function getDeals2Sheet(sheetName) {
   throw new Error('Dealsインスタンスを生成してから実行してください。');
 }
 
-/* ======================================================= */
-
 /* 061 freee個別取引に関するクラス */
 
 /**
- * JSONオブジェクトから取引を更新するメソッド
+ * Dealインスタンス生成後、JSONオブジェクトから取引を登録するメソッド
+ * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @return  {Object}  response - 取引情報を格納したオブジェクト
+ */
+
+function postDeal(payload) {
+  throw new Error('Dealインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Dealインスタンス生成後、シート名で指定したシートの取引データから一括して取引を登録するメソッド
+ * @param   {string}  sheetName - 取引データを格納したシート名
+ * @param   {string}  groupKey - 複数の取引データを取りまとめるキーとなるヘッダー項目（デフォルト：グループキー）
+ * @return  {SpreadsheetApp.Range} データ登録した範囲のRangeオブジェクト
+ */
+
+function postDealsFromSheet(sheetName, groupKey = 'グループキー') {
+  throw new Error('Dealインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Dealインスタンス生成後、JSONオブジェクトから取引を更新するメソッド
  * @params  {number}  deal_id - 取引ID
  * @params  {Object}  payload - 更新内容
  * @return  {Object}  response - 更新された取引オブジェクト
@@ -404,12 +480,12 @@ function putDeal(deal_id, payload) {
 }
 
 /**
- * シート名で指定したシートの取引データから一括して取引を更新するメソッド
+ * Dealインスタンス生成後、シート名で指定したシートの取引データから一括して取引を更新するメソッド
  * @param   {string}  sheetName - 請求データを格納したシート名
  * @return  {SpreadsheetApp.Range} データ登録した範囲のRangeオブジェクト
  */
 
-function putDealsFromSheet(sheetName) {
+function renewDealsFromSheet(sheetName) {
   throw new Error('Dealインスタンスを生成してから実行してください。');
 }
 

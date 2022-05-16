@@ -11,7 +11,7 @@
  * getURL() - 指定した条件の品目一覧のリクエストURLを返すメソッド
  * getAllItems() - 品目一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDと品目名が列挙されたMapオブジェクトを生成するメソッド
- * updateItemsSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの品目一覧を更新するメソッド
+ * getItems2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの品目一覧を更新するメソッド
  *  
  */
 
@@ -108,7 +108,7 @@ class Items {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateItemsSheet(sheetName) {
+  getItems2Sheet(sheetName) {
 
     const aryItems = this.getAllItems();
     const objHeader = {

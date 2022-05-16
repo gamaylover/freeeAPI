@@ -13,7 +13,7 @@
  * getURL() - 指定した条件の取引先一覧のリクエストURLを返すメソッド
  * getAllPartners() - 全ての取引先一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDと勘定科目名が列挙されたMapオブジェクトを生成するメソッド
- * updatePartnersSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの取引先一覧を更新するメソッド
+ * getPartners2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの取引先一覧を更新するメソッド
  * 
  */
 
@@ -111,7 +111,7 @@ class Partners {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updatePartnersSheet(sheetName) {
+  getPartners2Sheet(sheetName) {
 
     // freeeAPIのIDと事業所種別が列挙されたMapオブジェクト
     const mapORG_CODE = new Enum().ORG_CODE;
