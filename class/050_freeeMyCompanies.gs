@@ -9,7 +9,7 @@
  * メソッド
  * getMyCompanies() - 全ての事業所情報を配列で返すメソッド
  * getMyCompanyId(company_name) - 指定した名称の事業所IDを返すメソッド
- * updateMyCompaniesSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの事業所情報を更新するメソッド
+ * getMyCompanies2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの事業所情報を更新するメソッド
  * 
  */
 
@@ -58,7 +58,7 @@ class MyCompanies {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateMyCompaniesSheet(sheetName) {
+  getMyCompanies2Sheet(sheetName) {
     
     const aryCompanies = this.getMyCompanies();
     const objHeader = {

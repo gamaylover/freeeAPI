@@ -13,7 +13,7 @@
  * getAllAccountItems() - 勘定科目一覧を全てを配列で取得するメソッド
  * getAccountItemId(accountItem_name) - 指定した名前の勘定科目のIDを返すメソッド
  * mapIdName() - freeeAPIのIDと勘定科目名が列挙されたMapオブジェクトを生成するメソッド
- * updateAccountItemsSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの勘定科目一覧を更新するメソッド
+ * getAccountItems2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの勘定科目一覧を更新するメソッド
  * 
  */
 
@@ -101,7 +101,7 @@ class AccountItems {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateAccountItemsSheet(sheetName) {
+  getAccountItems2Sheet(sheetName) {
     
     const aryAccountItems = this.getAllAccountItems();
     const objHeader = {

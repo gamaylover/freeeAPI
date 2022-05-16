@@ -11,7 +11,7 @@
  * getURL() - 指定した条件のメモタグ一覧のリクエストURLを返すメソッド
  * getAllTags() - メモタグ一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDとメモタグ名が列挙されたMapオブジェクトを生成するメソッド
- * updateTagsSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートのメモタグ一覧を更新するメソッド
+ * getTags2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートのメモタグ一覧を更新するメソッド
  *  
  */
 
@@ -108,7 +108,7 @@ class Tags {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateTagsSheet(sheetName) {
+  getTags2Sheet(sheetName) {
     
     const aryTags = this.getAllTags();
     const objHeader = {

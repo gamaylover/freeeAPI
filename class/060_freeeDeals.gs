@@ -12,7 +12,7 @@
  * メソッド
  * getURL() - 指定した条件の取引一覧のリクエストURLを返すメソッド
  * getAllDeals() - 指定した条件の全ての取引一覧を配列で取得するメソッド
- * getDeals2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの取引一覧を更新するメソッド
+ * getDeals2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの取引一覧を取得するメソッド
  * 
  */
 
@@ -102,9 +102,9 @@ class Deals {
   }
 
   /**
-   * アクティブなスプレッドシートのシート名で指定したシートの取引一覧を更新するメソッド
-   * @param   {string}  sheetName - 取引一覧を更新したいシート名
-   * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
+   * アクティブなスプレッドシートのシート名で指定したシートの取引一覧を取得するメソッド
+   * @param   {string}  sheetName - 取引一覧を取得したいシート名
+   * @return  {SpreadsheetApp.Range} データ取得した範囲のRangeオブジェクト
    */
 
   getDeals2Sheet(sheetName) {

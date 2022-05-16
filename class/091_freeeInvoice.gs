@@ -12,8 +12,8 @@
  * メソッド
  * getInvoice() - 指定したIDの請求書を取得するメソッド
  * postInvoice(payload) - JSONオブジェクトから請求書を登録するメソッド
- * postInvoicesFromSheet(sheetName) - シート名で指定したシートの請求データから一括して請求書を作成するメソッド
- * putInvoice(payload) - JSONオブジェクトから請求書を更新するメソッド
+ * postInvoicesFromSheet(sheetName, groupKey) - シート名で指定したシートの請求データから一括して請求書を作成するメソッド
+ * putInvoice(invoice_id, payload)- JSONオブジェクトから請求書を更新するメソッド
  * 
  */
 
@@ -114,7 +114,6 @@ class Invoice {
     Utilities.sleep(300);
     return response.invoice;
   }
-
 
   /**
    * シート名で指定したシートの請求データから一括して請求書を作成するメソッド

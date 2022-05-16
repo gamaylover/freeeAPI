@@ -10,7 +10,7 @@
  * getAllTaxes() - 全ての税区分を配列で返すメソッド
  * getTaxCode(tax_name) - 指定した名称の税区分コードを返すメソッド
  * mapCodeName() - freeeAPIのコードと税区分名が列挙されたMapオブジェクトを生成するメソッド
- * updateTaxesSheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの税区分を更新するメソッド
+ * getTaxes2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの税区分を更新するメソッド
  * 
  */
 
@@ -72,7 +72,7 @@ class Taxes {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  updateTaxesSheet(sheetName) {
+  getTaxes2Sheet(sheetName) {
 
     // freeeAPIのIDと税区分が列挙されたMapオブジェクト
     const mapDISPLAY_CATEGORY = new Enum().DISPLAY_CATEGORY;

@@ -19,6 +19,8 @@
  * INVOICE_LAYOUT - 請求書レイアウト
  * TAX_ENTRY_METHOD - 請求書の消費税計算方法
  * ENTRY_SIDE - 請求書の消費税計算方法
+ * COMMENT_STATUS - コメント状態
+ * ADJUSTMENT - 決算整理仕訳
  * 
  * メソッド
  * convertValue2Key(enumType, trgValue) - 指定した列挙型Mapオブジェクトを参照して値からキーを返すメソッド
@@ -208,6 +210,23 @@ class Enum {
     this.ENTRY_SIDE = new Map([
       ['credit', '貸方'],
       ['debit', '借方']
+    ]);
+
+    // コメント状態
+    this.COMMENT_STATUS = new Map([
+      ['posted_with_mention', '自分宛のコメント'],
+      ['raised_with_mention', '自分宛のコメント-未解決'],
+      ['resolved_with_mention', '自分宛のコメント-解決済'],
+      ['posted', 'コメントあり'],
+      ['raised', '未解決'],
+      ['resolved', '解決済'],
+      ['none', 'コメントなし']
+    ]);
+
+    // 決算整理仕訳
+    this.ADJUSTMENT = new Map([
+      ['only', '決算整理仕訳'],
+      ['without', '日常仕訳']
     ]);
 
   }
