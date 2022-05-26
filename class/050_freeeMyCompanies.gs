@@ -9,7 +9,7 @@
  * メソッド
  * getMyCompanies() - 全ての事業所情報を配列で返すメソッド
  * getMyCompanyId(company_name) - 指定した名称の事業所IDを返すメソッド
- * getMyCompanies2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの事業所情報を更新するメソッド
+ * getMyCompanies2Sheet(sheetName) - 指定したシート名のシートに事業所情報一覧を取得するメソッド
  * 
  */
 
@@ -53,7 +53,7 @@ class MyCompanies {
   }
 
   /**
-   * アクティブなスプレッドシートのシート名で指定したシートの事業所情報を更新するメソッド
+   * 指定したシート名のシートに事業所情報一覧を取得するメソッド
    * @param   {string}  sheetName - 事業所情報を更新したいシート名
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */

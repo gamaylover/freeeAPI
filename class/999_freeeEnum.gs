@@ -21,6 +21,7 @@
  * ENTRY_SIDE - 請求書の消費税計算方法
  * COMMENT_STATUS - コメント状態
  * ADJUSTMENT - 決算整理仕訳
+ * RECEIPT_STATUS - 証憑状態
  * 
  * メソッド
  * convertValue2Key(enumType, trgValue) - 指定した列挙型Mapオブジェクトを参照して値からキーを返すメソッド
@@ -31,7 +32,7 @@
 
 class Enum {
   /**
-   * J仮想Enum（列挙型）Mapオブジェクト操作に関するコンストラクタ
+   * 仮想Enum（列挙型）Mapオブジェクト操作に関するコンストラクタ
    * @constructor
    */
 
@@ -227,6 +228,14 @@ class Enum {
     this.ADJUSTMENT = new Map([
       ['only', '決算整理仕訳'],
       ['without', '日常仕訳']
+    ]);
+
+    // 証憑状態
+    this.RECEIPT_STATUS = new Map([
+      ['unconfirmed', '確認待ち'],
+      ['confirmed', '確認済み'],
+      ['deleted', '削除済み'],
+      ['ignored', '無視']
     ]);
 
   }

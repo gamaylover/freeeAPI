@@ -54,8 +54,8 @@ function getMyCompanyId(company_name) {
 }
 
 /**
- * MyCompaniesインスタンス生成後、 アクティブなスプレッドシートのシート名で指定したシートの事業所情報を更新するメソッド
- * @param   {string}  sheetName - 事業所情報を更新したいシート名
+ * MyCompaniesインスタンス生成後、 指定したシート名のシートに事業所情報一覧を取得するメソッド
+ * @param   {string}  sheetName - 事業所情報を取得したいシート名
  * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
  */
 
@@ -557,3 +557,35 @@ function putInvoice(invoice_id, payload) {
 
 /* ======================================================= */
 
+/* 170 freeeファイルボックスに関するクラス */
+
+/**
+ * Receiptsインスタンス生成後、指定した条件の証憑一覧全てを配列で取得するメソッド
+ * @return  {Array.<Object>}   aryReceipts  freee証憑オブジェクトの一覧を格納した配列
+ */
+
+function getAllReceipts() {
+  throw new Error('Receiptsインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Receiptsインスタンス生成後、シート名で指定したシートに証憑一覧を取得するメソッド
+ * @param   {string}  sheetName - 証憑一覧を取得したいシート名
+ * @return  {SpreadsheetApp.Range} データ取得した範囲のRangeオブジェクト
+ */
+
+function getReceipts2Sheet(sheetName) {
+  throw new Error('Receiptsインスタンスを生成してから実行してください。');
+}
+
+/**
+ * Receiptsインスタンス生成後、ファイルボックスに指定したファイルをアップロードするメソッド
+ * @parama  {Blob}  receipt - ファイルボックスにアップロードしたいファイル（Blob形式）
+ * @parama  {string}  description - メモ (255文字以内) *省略可
+ * @parama  {string}  issue_date - 取引日 (yyyy-MM-dd) *省略可
+ * @return  {HTTPResponse}   response  - ファイルボックスへのアップロード結果に関するレスポンス
+ */
+
+function postReceipt(receipt, description, issue_date) {
+  throw new Error('Receiptsインスタンスを生成してから実行してください。');
+}

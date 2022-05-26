@@ -74,7 +74,7 @@ class Partners {
     if (typeof this.queries.limit === 'number') { limit = this.queries.limit };
     if (typeof this.queries.limit === 'string') { limit = Number(this.queries.limit) };
     this.queries.limit = limit.toString();
-    
+
     /* 指定した条件の取引先オブジェクト一覧を配列で取得 */
 
     // 取引先オブジェクト一覧を格納する空の配列
@@ -197,6 +197,7 @@ class Partners {
     ary2D.unshift(headerValues);
 
     const ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss.getSheets().filter(sheet => sheet.getName() === sheetName).length === 0) { ss.insertSheet(sheetName, 0); } // 同一のシート名がなければ新規作成する
     const sheet = ss.getSheetByName(sheetName);
     sheet.getDataRange().clearContent();
     const range = sheet.getRange(1, 1, ary2D.length, ary2D[0].length);
