@@ -135,6 +135,9 @@ class Deal {
     // メモタグ名が列挙されたMapオブジェクト
     const mapTags = new Tags(this.accessToken, this.company_id).mapIdName();
 
+    //  証憑メモが列挙されたMapオブジェクト
+    const mapReceipts = new Receipts(this.accessToken, this.company_id).mapIdName();
+
     /**
      * 日本語ヘッダー項目をプロパティに持つオブジェクトの配列から取引1件（複数明細対応）ごとに登録していく関数
      * @params  {Array.<Object>}  dealContents - this.objPostの各値（日本語）をプロパティにしたオブジェクト（取引明細）を格納した配列
