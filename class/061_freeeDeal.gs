@@ -179,7 +179,7 @@ class Deal {
       });
 
       // 証憑ファイルメモ
-      if (newPutObj.receipt_ids) { newPutObj.receipt_ids = newPutObj.receipt_ids.split(',').map(receiptMemo => MapObject.convertValue2Key(mapReceipts, receiptMemo)) };
+      if (newPostObj.receipt_ids) { newPostObj.receipt_ids = newPostObj.receipt_ids.split(',').map(receiptMemo => MapObject.convertValue2Key(mapReceipts, receiptMemo)) };
 
       /* ブランク等不要なプロパティを削除 */
       ObjectJSON.deleteBlankProperties(newPostObj);
