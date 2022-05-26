@@ -50,7 +50,8 @@ class Deal {
         item_id: '品目',
         section_id: '部門',
         tag_ids: 'メモタグ',
-      }]
+      }],
+      receipt_ids: '証憑ファイルメモ'
     }
     this.objPut = {
       company_id: '事業所ID',
@@ -69,7 +70,8 @@ class Deal {
         item_id: '品目',
         section_id: '部門',
         tag_ids: 'メモタグ',
-      }]
+      }],
+      receipt_ids: '証憑ファイルメモ'
     }
   }
 
@@ -176,6 +178,9 @@ class Deal {
         if (detail.tag_ids) { detail.tag_ids = detail.tag_ids.split(',').map(tagName => MapObject.convertValue2Key(mapTags, tagName)) };
       });
 
+      // 証憑ファイルメモ
+      if (newPutObj.receipt_ids) { newPutObj.receipt_ids = newPutObj.receipt_ids.split(',').map(receiptMemo => MapObject.convertValue2Key(mapReceipts, receiptMemo)) };
+
       /* ブランク等不要なプロパティを削除 */
       ObjectJSON.deleteBlankProperties(newPostObj);
       return this.postDeal(newPostObj);
@@ -243,6 +248,9 @@ class Deal {
     // メモタグ名が列挙されたMapオブジェクト
     const mapTags = new Tags(this.accessToken, this.company_id).mapIdName();
 
+    //  証憑メモが列挙されたMapオブジェクト
+    const mapReceipts = new Receipts(this.accessToken, this.company_id).mapIdName();
+
     /* 取引IDごとに更新していく関数 */
 
     const putDealFromData = (deal_id, dealContents) => {
@@ -282,6 +290,9 @@ class Deal {
         if (detail.tag_ids) { detail.tag_ids = detail.tag_ids.split(',').map(tagName => MapObject.convertValue2Key(mapTags, tagName)) };
       });
 
+      // 証憑ファイルメモ
+      if (newPutObj.receipt_ids) { newPutObj.receipt_ids = newPutObj.receipt_ids.split(',').map(receiptMemo => MapObject.convertValue2Key(mapReceipts, receiptMemo)) };
+
       /* ブランク等不要なプロパティを削除 */
       ObjectJSON.deleteBlankProperties(newPutObj);
       return this.putDeal(deal_id, newPutObj);
@@ -301,7 +312,7 @@ class Deal {
 
     /* 更新前の取引データをGoogleドライブの指定したIDのフォルダ（デフォルト：ルート）に事業所IDとタイムスタンプをつけてバックアップ */
     const timeStamp = new DateFormat(new Date(), 'yyyyMMddhhmmss').string;
-    const fileName = `${this.company_id}_dealss_${timeStamp}.txt`;
+    const fileName = `${this.company_id}_deals_${timeStamp}.txt`;
 
     if (folderId === '') {
       DriveApp.getRootFolder().createFile(fileName, JSON.stringify(oldDeals))

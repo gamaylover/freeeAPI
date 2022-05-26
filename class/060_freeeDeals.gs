@@ -161,7 +161,12 @@ class Deals {
         date: '支払日',
         from_walletable_id: '口座',
         amount: '支払金額'
+      },
+      receipts: {
+        id: '証憑ファイルID',
+        description: '証憑ファイルメモ'
       }
+
     };
     // オブジェクトをフラット化し、階層に応じてキーを連結して新しいオブジェクトを生成し、それを2次元配列化
     const objHeaderFlat = ObjectJSON.flatObj(objHeader);
