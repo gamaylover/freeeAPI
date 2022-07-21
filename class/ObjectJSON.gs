@@ -141,27 +141,27 @@ class ObjectJSON {
    * 雛形オブジェクトの形式に複数のオブジェクトのデータを結合させるメソッド
    * @params  {Object}  objTemp - 雛形となるオブジェクト
    * @params  {Array.<Object>}  arrayObjs - データオブジェクトを複数格納した配列
-   * @return  {Object}  convinedObj - 雛形オブジェクトの形式に複数のオブジェクトのデータが結合したオブジェクト
+   * @return  {Object}  combinedObj - 雛形オブジェクトの形式に複数のオブジェクトのデータが結合したオブジェクト
    */
 
-  static convineObjs(objTemp, arrayObjs) {
+  static combineObjs(objTemp, arrayObjs) {
     const length = arrayObjs.length;
-    
-    // const convinedObj = Object.assign({}, objTemp);
-    const convinedObj = JSON.parse(JSON.stringify(objTemp));
+
+    // const combinedObj = Object.assign({}, objTemp);
+    const combinedObj = JSON.parse(JSON.stringify(objTemp));
     // https://codelikes.com/javascript-object-assign-spread/
     // https://kuroeveryday.blogspot.com/2017/05/deep-clone-object-in-javascript.html
-    
+
     for (let i = 0; i < length; i++) {
       const obj = arrayObjs[i];
       const keys = Object.keys(obj);
       keys.forEach(key => {
-        const value = convinedObj[key];
-        if (Array.isArray(value)) { convinedObj[key][i] = obj[key] }
-        else { convinedObj[key] = obj[key] };
+        const value = combinedObj[key];
+        if (Array.isArray(value)) { combinedObj[key][i] = obj[key] }
+        else { combinedObj[key] = obj[key] };
       });
     };
-    return convinedObj;
+    return combinedObj;
   }
 
   /**
@@ -171,12 +171,26 @@ class ObjectJSON {
    */
 
   static deleteBlankProperties(obj) {
+
+    /* オブジェクトのプロパティの値全てがnullまたはundefinedまたは空文字列の場合はtrueを返す関数 */
+    const isBlankObj = objTest => {
+      return Object.values(objTest).every(element => element === '' || element === undefined || element === null)
+    };
+
     Object.keys(obj).forEach(key => {
       const value = obj[key]
+
+      // 値がnullでないオブジェクト
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) { this.deleteBlankProperties(value) };
-      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { this.deleteBlankProperties(value) };
+      // プロパティを持たないオブジェクト
       if (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0) { delete obj[key] };
+      // 要素が1以上の配列かつ要素の配列が空のオブジェクト
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0 && value.every(element => typeof element === 'object') && value.every(objTest => isBlankObj(objTest))) { delete obj[key] };
+      // 要素が1以上の配列
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { this.deleteBlankProperties(value) };
+      // 要素が0の配列
       if (typeof value === 'object' && Array.isArray(value) && value.length === 0) { delete obj[key] };
+
       if (value === null) { delete obj[key] };
       if (value === undefined) { delete obj[key] };
       if (value === '') { delete obj[key] };
@@ -185,21 +199,55 @@ class ObjectJSON {
   }
 
 
+
   /**
    * オブジェクトからテンプレートのキー一覧との共通しないプロパティを削除するメソッド
-   * @params  {Object}  obj - 元となるオブジェクト
-   * @params  {Array}   keysKeep - 残したいプロパティの一覧
-   * @return  {Object}  objNew - 共通しないキーのプロパティを削除したオブジェクト
+   * @param  {Object}  obj - 元となるオブジェクト
+   * @param  {Array}   keysKeep - 残したいプロパティの一覧
+   * @return  {Object}  obj - 共通しないキーのプロパティを削除したオブジェクト
    */
 
   static deleteDiffProperties(obj, keysKeep) {
-    const keys = Object.keys(obj);
-    // テンプレートのキー一覧との共通しないキーの一覧を配列で取得
-    const diffKeys = keys.filter(key => !keysKeep.includes(key));
-    // 共通しないキーのプロパティを削除
-    diffKeys.forEach(difKey => delete obj[difKey]);
-    return obj;
 
+    const primaryKeys = Object.keys(obj);
+    const diffKeys = primaryKeys.filter(key => !keysKeep.includes(key));
+    diffKeys.forEach(difKey => delete obj[difKey]);
+
+    primaryKeys.forEach(key => {
+      if (keysKeep.includes(key)) {
+        const value = obj[key];
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) { this.deleteDiffProperties(value, keysKeep) }; // 値がnullでないオブジェクト
+        if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { value.forEach(secondaryObj => this.deleteDiffProperties(secondaryObj, keysKeep)) }; // 要素が1以上の配列
+      }
+    });
+
+    return obj
+  }
+
+
+  /**
+   * オブジェクトの複数階層にわたったユニークなキーの一覧を取得するメソッド
+   * @param  {Object}  obj - 元となるオブジェクト
+   * @return  {Array}  uniqueKeys - ユニークなキーの一覧
+   */
+
+  static getAllUniqueKeys(obj) {
+    const primaryKeys = Object.keys(obj); // 第1階層のプロパティ一覧
+    const secondaryKeys = primaryKeys.map(key => {
+      const value = obj[key];
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) { return this.getAllUniqueKeys(value) }; // 値がnullでないオブジェクト
+      if (typeof value === 'object' && Array.isArray(value) && value.every(element => typeof element !== 'object')) { return undefined }  // 要素にオブジェクトを含まない配列
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { // 要素が1以上の配列
+        for (const secondaryObj of value) {
+          return this.getAllUniqueKeys(secondaryObj);
+        }
+      };
+      return key;
+    });
+
+    const combinedKeys = primaryKeys.concat(secondaryKeys).flat();
+    const uniqueKeys = Array.from(new Set(combinedKeys)).filter(key => key !== undefined);
+    return uniqueKeys;
   }
 
 }

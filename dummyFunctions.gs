@@ -110,7 +110,7 @@ function getPartnerId(partner_name) {
 
 /**
  * Partnerインスタンス生成後、JSONオブジェクトから取引先を登録するメソッド
- * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @param  {Object}  payload - 登録する内容のJSONオブジェクト
  * @return  {Object}  response - 取引先情報を格納したオブジェクト
  */
 
@@ -120,7 +120,7 @@ function postPartner(payload) {
 
 /**
  * Partnerインスタンス生成後、日本語ヘッダー項目をプロパティに持つオブジェクトから取引先を登録するメソッド
- * @params  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
+ * @param  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
  * @return  {Object}  response - 取引先情報を格納したオブジェクト
  */
 
@@ -130,8 +130,8 @@ function postPartnerFromData(objData) {
 
 /**
  * Partnerインスタンス生成後、JSONオブジェクトから取引先を更新するメソッド
- * @params  {number}  partner_id - 取引先ID
- * @params  {Object}  payload - 更新内容
+ * @param  {number}  partner_id - 取引先ID
+ * @param  {Object}  payload - 更新内容
  * @return  {Object}  response - 更新された取引先オブジェクト
  */
 
@@ -141,7 +141,7 @@ function putPartner(partner_id, payload) {
 
 /**
  * Partnerインスタンス生成後、日本語ヘッダー項目をプロパティに持つオブジェクトから取引先を更新するメソッド
- * @params  {Object}  objData - this.objPutの各値（日本語）をプロパティにしたオブジェクト（登録内容）
+ * @param  {Object}  objData - this.objPutの各値（日本語）をプロパティにしたオブジェクト（登録内容）
  * @return  {Object}  response - 取引先情報を格納したオブジェクト
  */
 
@@ -151,8 +151,8 @@ function putPartnerFromData(objData) {
 
 /**
  * Partnerインスタンス生成後、シート名で指定したシートのデータから取引先を一括更新するメソッド
- * @params  {string}  sheetName - 更新する取引先の一覧が入力されているシート名
- * @params  {string}  folderId - 更新前の取引先一覧のバックアップを保存したフォルダのID（デフォルト：ルートフォルダに保存）
+ * @param  {string}  sheetName - 更新する取引先の一覧が入力されているシート名
+ * @param  {string}  folderId - 更新前の取引先一覧のバックアップを保存したフォルダのID（デフォルト：ルートフォルダに保存）
  */
 
 function renewPartnersFromSheet(sheetName, folderId = '') {
@@ -161,7 +161,7 @@ function renewPartnersFromSheet(sheetName, folderId = '') {
 
 /**
  * Partnerインスタンス生成後、指定したIDの取引先を削除するメソッド
- * @params  {number}  partner_id - 取引先ID
+ * @param  {number}  partner_id - 取引先ID
  */
 
 function deletePartner(partner_id) {
@@ -170,8 +170,8 @@ function deletePartner(partner_id) {
 
 /**
  * Partnerインスタンス生成後、シート名で指定したシートのにある取引先を一括削除するメソッド
- * @params  {string}  sheetName - 削除する取引先の一覧が入力されているシート名
- * @params  {string}  folderId - 削除前の取引先一覧のバックアップを保存したフォルダのID（デフォルト：ルートフォルダに保存）
+ * @param  {string}  sheetName - 削除する取引先の一覧が入力されているシート名
+ * @param  {string}  folderId - 削除前の取引先一覧のバックアップを保存したフォルダのID（デフォルト：ルートフォルダに保存）
  */
 
 function deletePartnersFromSheet(sheetName, folderId = '') {
@@ -228,7 +228,7 @@ function getTags2Sheet(sheetName) {
 
 /**
  * Tagインスタンス生成後、指定したIDのメモタグを取得するメソッド
- * @params  {number}  tag_id - メモタグID
+ * @param  {number}  tag_id - メモタグID
  * @return  {Object}  response - メモタグ情報を格納したオブジェクト
  */
 
@@ -238,7 +238,7 @@ function getTag(tag_id) {
 
 /**
  * Tagインスタンス生成後、JSONオブジェクトからメモタグを登録するメソッド
- * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @param  {Object}  payload - 登録する内容のJSONオブジェクト
  * @return  {Object}  response - メモタグ情報を格納したオブジェクト
  */
 
@@ -248,7 +248,7 @@ function postTag(payload) {
 
 /**
  * Tagインスタンス生成後、日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを登録するメソッド
- * @params  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
+ * @param  {Object}  objData - this.objPostの各値（日本語）をプロパティにしたオブジェクト（登録内容）
  * @return  {Object}  response - メモタグ情報を格納したオブジェクト
  */
 
@@ -257,8 +257,8 @@ function postTagFromData(objData) {
 }
 /**
  * Tagインスタンス生成後、JSONオブジェクトからメモタグを更新するメソッド
- * @params  {number}  tag_id - メモタグID
- * @params  {Object}  payload - 更新内容
+ * @param  {number}  tag_id - メモタグID
+ * @param  {Object}  payload - 更新内容
  * @return  {Object}  response - 更新されたメモタグオブジェクト
  */
 
@@ -268,7 +268,7 @@ function putTag(tag_id, payload) {
 
 /**
  * Tagインスタンス生成後、日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを更新するメソッド
- * @params  {Object}  objData - this.objPutの各値（日本語）をプロパティにしたオブジェクト（登録内容）
+ * @param  {Object}  objData - this.objPutの各値（日本語）をプロパティにしたオブジェクト（登録内容）
  * @return  {Object}  response - メモタグ情報を格納したオブジェクト
  */
 
@@ -278,8 +278,8 @@ function putTagFromData(objData) {
 
 /**
  * Tagインスタンス生成後、シート名で指定したシートのデータからメモタグを一括更新するメソッド
- * @params  {string}  sheetName - 更新するメモタグの一覧が入力されているシート名
- * @params  {string}  folderId - 更新前のメモタグ一覧のバックアップを保存したフォルダのID（デフォルト：ルートフォルダに保存）
+ * @param  {string}  sheetName - 更新するメモタグの一覧が入力されているシート名
+ * @param  {string}  folderId - 更新前のメモタグ一覧のバックアップを保存したフォルダのID（デフォルト：ルートフォルダに保存）
  */
 
 function renewTagsFromSheet(sheetName, folderId = '') {
@@ -337,7 +337,7 @@ function getManualJournals2Sheet(sheetName) {
 
 /**
  * ManualJournalインスタンスを生成後、指定したIDの振替伝票を取得するメソッド
- * @params  {number}  manualJournal_id - 振替伝票ID
+ * @param  {number}  manualJournal_id - 振替伝票ID
  * @return  {Object}  response - 振替伝票情報を格納したオブジェクト
  */
 
@@ -347,7 +347,7 @@ function getManualJournal(manualJournal_id) {
 
 /**
  * ManualJournalインスタンスを生成後、JSONオブジェクトから振替伝票を登録するメソッド
- * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @param  {Object}  payload - 登録する内容のJSONオブジェクト
  * @return  {Object}  response - 振替伝票情報を格納したオブジェクト
  */
 
@@ -449,7 +449,7 @@ function getDeals2Sheet(sheetName) {
 
 /**
  * Dealインスタンス生成後、JSONオブジェクトから取引を登録するメソッド
- * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @param  {Object}  payload - 登録する内容のJSONオブジェクト
  * @return  {Object}  response - 取引情報を格納したオブジェクト
  */
 
@@ -470,8 +470,8 @@ function postDealsFromSheet(sheetName, groupKey = 'グループキー') {
 
 /**
  * Dealインスタンス生成後、JSONオブジェクトから取引を更新するメソッド
- * @params  {number}  deal_id - 取引ID
- * @params  {Object}  payload - 更新内容
+ * @param  {number}  deal_id - 取引ID
+ * @param  {Object}  payload - 更新内容
  * @return  {Object}  response - 更新された取引オブジェクト
  */
 
@@ -516,16 +516,17 @@ function getInvoices2Sheet(sheetName) {
 
 /**
  * Invoiceインスタンス生成後、指定したIDの請求書を取得するメソッド
+ * @param  {number}  invoice_id - 請求書ID
  * @return  {Object}  response - 請求書情報を格納したオブジェクト
  */
 
-function getInvoice() {
+function getInvoice(invoice_id)  {
   throw new Error('Invoiceインスタンスを生成してから実行してください。');
 }
 
 /**
  * Invoiceインスタンス生成後、JSONオブジェクトから請求書を登録するメソッド
- * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @param  {Object}  payload - 登録する内容のJSONオブジェクト
  * @return  {Object}  response - 請求書情報を格納したオブジェクト
  */
 
@@ -546,8 +547,8 @@ function postInvoicesFromSheet(sheetName, groupKey = '請求書番号') {
 
 /**
  * Invoiceインスタンス生成後、JSONオブジェクトから請求書を更新するメソッド
- * @params  {number}  invoice_id - 請求書ID
- * @params  {Object}  payload - 登録する内容のJSONオブジェクト
+ * @param  {number}  invoice_id - 請求書ID
+ * @param  {Object}  payload - 登録する内容のJSONオブジェクト
  * @return  {Object}  response - 請求書情報を格納したオブジェクト
  */
 

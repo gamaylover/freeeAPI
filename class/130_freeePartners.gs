@@ -12,7 +12,8 @@
  * メソッド
  * getURL() - 指定した条件の取引先一覧のリクエストURLを返すメソッド
  * getAllPartners() - 全ての取引先一覧を配列で取得するメソッド
- * mapIdName() - freeeAPIのIDと勘定科目名が列挙されたMapオブジェクトを生成するメソッド
+ * mapIdName() - freeeAPIのIDと取引先名が列挙されたMapオブジェクトを生成するメソッド
+ * getIdByName(name) - 取引先名からfreeeAPIのIDを取得するメソッド
  * getPartners2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの取引先一覧を更新するメソッド
  * 
  */
@@ -103,6 +104,18 @@ class Partners {
     const mapIdName = new Map();
     aryPartners.forEach(partner => mapIdName.set(partner.id, partner.name));
     return mapIdName;
+  }
+
+  /**
+   * 取引先名からfreeeAPIのIDを取得するメソッド
+   * @param   {string}  name - 取引先名
+   * @return  {string}  id - 取引先ID
+   */
+
+  getIdByName(name) {
+    const mapIdName = this.mapIdName();
+    const id = MapObject.convertValue2Key(mapIdName, name);
+    return id;
   }
 
   /**

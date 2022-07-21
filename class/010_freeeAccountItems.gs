@@ -10,9 +10,10 @@
  * 
  * メソッド
  * getURL() - 指定した条件の勘定科目一覧のリクエストURLを返すメソッド
- * getAllAccountItems() - 勘定科目一覧を全てを配列で取得するメソッド
+ * getAllAccountItems() - 全ての勘定科目オブジェクトを配列で取得するメソッド
  * getAccountItemId(accountItem_name) - 指定した名前の勘定科目のIDを返すメソッド
  * mapIdName() - freeeAPIのIDと勘定科目名が列挙されたMapオブジェクトを生成するメソッド
+ * getIdByName(name) - 勘定科目名からfreeeAPIのIDを取得するメソッド
  * getAccountItems2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの勘定科目一覧を更新するメソッド
  * 
  */
@@ -93,6 +94,18 @@ class AccountItems {
     const mapIdName = new Map();
     aryAccountItems.forEach(accountItem => mapIdName.set(accountItem.id, accountItem.name));
     return mapIdName;
+  }
+
+  /**
+   * 勘定科目名からfreeeAPIのIDを取得するメソッド
+   * @param   {string}  name - 勘定科目名
+   * @return  {string}  id - 勘定科目ID
+   */
+
+  getIdByName(name) {
+    const mapIdName = this.mapIdName();
+    const id = MapObject.convertValue2Key(mapIdName, name);
+    return id;
   }
 
   /**

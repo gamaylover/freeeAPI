@@ -35,24 +35,37 @@ class Deal {
     this.accessToken = accessToken;
     this.company_id = company_id;
     this.objPost = {
-      company_id: '事業所ID',
-      type: '収支区分',
-      ref_number: '管理番号',
       issue_date: '発生日 (yyyy-MM-dd)',
+      type: '収支区分',
+      company_id: '事業所ID',
       due_date: '支払期日 (yyyy-MM-dd)',
       partner_id: '取引先',
+      partner_code: '取引先コード',
+      ref_number: '管理番号',
       details: [{
-        account_item_id: '勘定科目',
         tax_code: '税区分',
+        account_item_id: '勘定科目',
         amount: '取引金額',
-        vat: '消費税額',
-        description: '備考',
         item_id: '品目',
         section_id: '部門',
         tag_ids: 'メモタグ',
+        segment_1_tag_id: 'セグメント１ID',
+        segment_2_tag_id: 'セグメント２ID',
+        segment_3_tag_id: 'セグメント３ID',
+        description: '備考',
+        vat: '消費税額'
       }],
+      payments:
+        [{
+          amount: '支払金額',
+          from_walletable_id: '口座',
+          from_walletable_type: '口座区分',
+          date: '支払日'
+        }],
       receipt_ids: '証憑ファイルメモ'
     }
+
+
     this.objPut = {
       company_id: '事業所ID',
       type: '収支区分',
@@ -135,7 +148,13 @@ class Deal {
     // メモタグ名が列挙されたMapオブジェクト
     const mapTags = new Tags(this.accessToken, this.company_id).mapIdName();
 
-    //  証憑メモが列挙されたMapオブジェクト
+    // 口座名が列挙されたMapオブジェクト
+    const mapWallets = new Walletables(this.accessToken, this.company_id).mapIdName();
+
+    // 口座IDと区分が列挙されたMapオブジェクト
+    const mapWalletTypes = new Walletables(this.accessToken, this.company_id).mapIdType();
+
+    // 証憑メモが列挙されたMapオブジェクト
     const mapReceipts = new Receipts(this.accessToken, this.company_id).mapIdName();
 
     /**
@@ -151,7 +170,7 @@ class Deal {
         objContent['事業所ID'] = this.company_id;
         return ObjectJSON.overwriteValueLinkObj(this.objPost, objContent)
       });
-      const newPostObj = ObjectJSON.convineObjs(this.objPost, newPostObjs);
+      const newPostObj = ObjectJSON.combineObjs(this.objPost, newPostObjs);
 
       // 収支区分
       newPostObj.type =
@@ -181,10 +200,17 @@ class Deal {
         if (detail.tag_ids) { detail.tag_ids = detail.tag_ids.split(',').map(tagName => MapObject.convertValue2Key(mapTags, tagName)) };
       });
 
+      // 決済口座
+      newPostObj.payments.forEach(payment => {
+        payment.from_walletable_id = MapObject.convertValue2Key(mapWallets, payment.from_walletable_id);
+        payment.from_walletable_type = mapWalletTypes.get(payment.from_walletable_id);
+      });
+
       // 証憑ファイルメモ
       if (newPostObj.receipt_ids) { newPostObj.receipt_ids = newPostObj.receipt_ids.split(',').map(receiptMemo => MapObject.convertValue2Key(mapReceipts, receiptMemo)) };
 
       /* ブランク等不要なプロパティを削除 */
+      
       ObjectJSON.deleteBlankProperties(newPostObj);
       return this.postDeal(newPostObj);
     }
@@ -251,7 +277,7 @@ class Deal {
     // メモタグ名が列挙されたMapオブジェクト
     const mapTags = new Tags(this.accessToken, this.company_id).mapIdName();
 
-    //  証憑メモが列挙されたMapオブジェクト
+    // 証憑メモが列挙されたMapオブジェクト
     const mapReceipts = new Receipts(this.accessToken, this.company_id).mapIdName();
 
     /* 取引IDごとに更新していく関数 */
@@ -263,7 +289,7 @@ class Deal {
         objContent['事業所ID'] = this.company_id;
         return ObjectJSON.overwriteValueLinkObj(this.objPut, objContent)
       });
-      const newPutObj = ObjectJSON.convineObjs(this.objPut, newPutObjs);
+      const newPutObj = ObjectJSON.combineObjs(this.objPut, newPutObjs);
 
       // 収支区分
       newPutObj.type =

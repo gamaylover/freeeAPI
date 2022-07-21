@@ -11,6 +11,7 @@
  * getURL() - 指定した条件の部門一覧のリクエストURLを返すメソッド
  * getAllSections() - 部門一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDと部門名が列挙されたMapオブジェクトを生成するメソッド
+ * getIdByName(name) - 部門名からfreeeAPIのIDを取得するメソッド
  * getections2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの部門一覧を更新するメソッド
  * 
  */
@@ -65,6 +66,18 @@ class Sections {
     const mapIdName = new Map();
     arySections.forEach(section => mapIdName.set(section.id, section.name));
     return mapIdName;
+  }
+
+  /**
+   * 部門名からfreeeAPIのIDを取得するメソッド
+   * @param   {string}  name - 部門名
+   * @return  {string}  id - 部門ID
+   */
+
+  getIdByName(name) {
+    const mapIdName = this.mapIdName();
+    const id = MapObject.convertValue2Key(mapIdName, name);
+    return id;
   }
 
   /**

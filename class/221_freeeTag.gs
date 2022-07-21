@@ -9,7 +9,7 @@
  * company_id - 事業所ID
  * 
  * メソッド
- * gettag(tag_id) - 指定したIDのメモタグを取得するメソッド
+ * getTag(tag_id) - 指定したIDのメモタグを取得するメソッド
  * postTag(payload) - JSONオブジェクトからメモタグを登録するメソッド
  * postTagFromData(objData) - 日本語ヘッダー項目をプロパティに持つオブジェクトからメモタグを登録するメソッド
  * putTag(tag_id, payload) - JSONオブジェクトからメモタグを更新するメソッド

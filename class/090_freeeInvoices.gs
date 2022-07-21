@@ -194,7 +194,7 @@ class Invoices {
         reduced_vat: '軽減税率区分',
         description: '備考',
         account_item_id: '勘定科目ID',
-        account_item_name: '勘定科目名',
+        account_item_name: '勘定科目',
         tax_code: '税区分',
         item_id: '品目ID',
         item_name: '品目',

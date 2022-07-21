@@ -12,6 +12,7 @@
  * getURL() - 指定した条件の口座一覧のリクエストURLを返すメソッド
  * getAllWalletables() - 全ての口座一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDと口座名が列挙されたMapオブジェクトを生成するメソッド
+ * getIdByName(name) - 口座名からfreeeAPIのIDを取得するメソッド
  * getWalletables2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの口座一覧を更新するメソッド
  * 
  * 
@@ -84,6 +85,30 @@ class Walletables {
   }
 
   /**
+   * freeeAPIの口座IDと口座区分値が列挙されたMapオブジェクトを生成するメソッド
+   * @return  {Array.<Map>}   mapIdType - freeeAPIの口座IDと口座区分値が列挙されたMapオブジェクト
+   */
+
+  mapIdType() {
+    const aryWallets = this.getAllWalletables();
+    const mapIdType = new Map();
+    aryWallets.forEach(wallet => mapIdType.set(wallet.id, wallet.type));
+    return mapIdType;
+  }
+
+  /**
+   * 口座名からfreeeAPIのIDを取得するメソッド
+   * @param   {string}  name - 口座名
+   * @return  {string}  id - 口座ID
+   */
+
+  getIdByName(name) {
+    const mapIdName = this.mapIdName();
+    const id = MapObject.convertValue2Key(mapIdName, name);
+    return id;
+  }
+
+  /**
    * アクティブなスプレッドシートのシート名で指定したシートの口座一覧を更新するメソッド
    * @param   {string}  sheetName - 口座一覧を更新したいシート名
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
@@ -114,6 +139,7 @@ class Walletables {
     ary2D.unshift(headerValues);
 
     const ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (ss.getSheets().filter(sheet => sheet.getName() === sheetName).length === 0) { ss.insertSheet(sheetName, 0); } // 同一のシート名がなければ新規作成する
     const sheet = ss.getSheetByName(sheetName);
     sheet.getDataRange().clearContent();
     const range = sheet.getRange(1, 1, ary2D.length, ary2D[0].length);
