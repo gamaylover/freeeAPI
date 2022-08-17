@@ -202,15 +202,17 @@ class Deal {
 
       // 決済口座
       newPostObj.payments.forEach(payment => {
+        // 支払日
         payment.from_walletable_id = MapObject.convertValue2Key(mapWallets, payment.from_walletable_id);
         payment.from_walletable_type = mapWalletTypes.get(payment.from_walletable_id);
+        payment.date = new DateFormat(payment.date).string;
       });
 
       // 証憑ファイルメモ
       if (newPostObj.receipt_ids) { newPostObj.receipt_ids = newPostObj.receipt_ids.split(',').map(receiptMemo => MapObject.convertValue2Key(mapReceipts, receiptMemo)) };
 
       /* ブランク等不要なプロパティを削除 */
-      
+
       ObjectJSON.deleteBlankProperties(newPostObj);
       return this.postDeal(newPostObj);
     }

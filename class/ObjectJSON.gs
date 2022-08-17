@@ -7,6 +7,7 @@
  * obj2DataObjs(obj) - 子階層以下に配列に格納されたオブジェクトが存在する場合、データ行数のオブジェクトにフラット化して返すメソッド
  * overwriteValueLinkObj(objTemp, objData) - 雛形オブジェクトの値をプロパティ名としたデータオブジェクトから値を取得し、雛形オブジェクトの値に上書きしていくメソッド
  * deleteBlankProperties(obj) - オブジェクトから値がnullやundefined、空のプロパティを削除するメソッド
+ * getAllUniqueKeys(obj) - オブジェクトの複数階層にわたったユニークなキーの一覧を取得するメソッド
  * 
  */
 
@@ -179,26 +180,17 @@ class ObjectJSON {
 
     Object.keys(obj).forEach(key => {
       const value = obj[key]
-
-      // 値がnullでないオブジェクト
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) { this.deleteBlankProperties(value) };
-      // プロパティを持たないオブジェクト
-      if (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0) { delete obj[key] };
-      // 要素が1以上の配列かつ要素の配列が空のオブジェクト
-      if (typeof value === 'object' && Array.isArray(value) && value.length > 0 && value.every(element => typeof element === 'object') && value.every(objTest => isBlankObj(objTest))) { delete obj[key] };
-      // 要素が1以上の配列
-      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { this.deleteBlankProperties(value) };
-      // 要素が0の配列
-      if (typeof value === 'object' && Array.isArray(value) && value.length === 0) { delete obj[key] };
-
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) { this.deleteBlankProperties(value) }; // 値がnullでないオブジェクト
+      if (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0) { delete obj[key] }; // プロパティを持たないオブジェクト
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0 && value.every(element => typeof element === 'object') && value.every(objTest => isBlankObj(objTest))) { delete obj[key] }; // 要素が1以上の配列かつ要素の配列が空のオブジェクト
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { this.deleteBlankProperties(value) }; // 要素が1以上の配列    
+      if (typeof value === 'object' && Array.isArray(value) && value.length === 0) { delete obj[key] }; // 要素が0の配列
       if (value === null) { delete obj[key] };
       if (value === undefined) { delete obj[key] };
       if (value === '') { delete obj[key] };
     });
     return obj;
   }
-
-
 
   /**
    * オブジェクトからテンプレートのキー一覧との共通しないプロパティを削除するメソッド
@@ -208,22 +200,13 @@ class ObjectJSON {
    */
 
   static deleteDiffProperties(obj, keysKeep) {
-
-    const primaryKeys = Object.keys(obj);
-    const diffKeys = primaryKeys.filter(key => !keysKeep.includes(key));
+    const keys = Object.keys(obj);
+    // テンプレートのキー一覧との共通しないキーの一覧を配列で取得
+    const diffKeys = keys.filter(key => !keysKeep.includes(key));
+    // 共通しないキーのプロパティを削除
     diffKeys.forEach(difKey => delete obj[difKey]);
-
-    primaryKeys.forEach(key => {
-      if (keysKeep.includes(key)) {
-        const value = obj[key];
-        if (typeof value === 'object' && value !== null && !Array.isArray(value)) { this.deleteDiffProperties(value, keysKeep) }; // 値がnullでないオブジェクト
-        if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { value.forEach(secondaryObj => this.deleteDiffProperties(secondaryObj, keysKeep)) }; // 要素が1以上の配列
-      }
-    });
-
-    return obj
+    return obj;
   }
-
 
   /**
    * オブジェクトの複数階層にわたったユニークなキーの一覧を取得するメソッド
@@ -237,7 +220,8 @@ class ObjectJSON {
       const value = obj[key];
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) { return this.getAllUniqueKeys(value) }; // 値がnullでないオブジェクト
       if (typeof value === 'object' && Array.isArray(value) && value.every(element => typeof element !== 'object')) { return undefined }  // 要素にオブジェクトを含まない配列
-      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { // 要素が1以上の配列
+      // 要素が1以上の配列
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) {
         for (const secondaryObj of value) {
           return this.getAllUniqueKeys(secondaryObj);
         }
