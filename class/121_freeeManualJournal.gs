@@ -132,7 +132,7 @@ class ManualJournal {
         objContent['事業所ID'] = this.company_id;
         return ObjectJSON.overwriteValueLinkObj(this.objPost, objContent)
       });
-      const newPostObj = ObjectJSON.convineObjs(this.objPost, newPostObjs);
+      const newPostObj = ObjectJSON.combineObjs(this.objPost, newPostObjs);
 
       // 発生日 (yyyy-MM-dd)
       newPostObj.issue_date =

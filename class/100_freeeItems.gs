@@ -11,6 +11,7 @@
  * getURL() - 指定した条件の品目一覧のリクエストURLを返すメソッド
  * getAllItems() - 品目一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDと品目名が列挙されたMapオブジェクトを生成するメソッド
+ * getIdByName(name) - 品目名からfreeeAPIのIDを取得するメソッド
  * getItems2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの品目一覧を更新するメソッド
  *  
  */
@@ -100,6 +101,18 @@ class Items {
     const mapIdName = new Map();
     aryItems.forEach(item => mapIdName.set(item.id, item.name));
     return mapIdName;
+  }
+
+  /**
+   * 品目名からfreeeAPIのIDを取得するメソッド
+   * @param   {string}  name - 品目名
+   * @return  {string}  id - 品目ID
+   */
+
+  getIdByName(name) {
+    const mapIdName = this.mapIdName();
+    const id = MapObject.convertValue2Key(mapIdName, name);
+    return id;
   }
 
   /**
