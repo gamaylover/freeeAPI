@@ -113,54 +113,37 @@ class Deal {
     this.apiRequest.paramsPost.payload = JSON.stringify(payload);
     const response = this.apiRequest.fetchResponse(url, this.apiRequest.paramsPost);
     Utilities.sleep(300);
-    return response.deal;
+    return response;
   }
 
   /**
    * シート名で指定したシートの取引データから一括して取引を登録するメソッド
    * @param   {string}  sheetName - 取引データを格納したシート名
    * @param   {string}  groupKey - 複数の取引データを取りまとめるキーとなるヘッダー項目（デフォルト：グループキー）
-   * @return  {SpreadsheetApp.Range} データ登録した範囲のRangeオブジェクト
+   * @return  {object}  objResults - 登録に成功したキーと失敗したキーを格納したオブジェクト
    */
 
   postDealsFromSheet(sheetName, groupKey = 'グループキー') {
 
-    /* 日本語で記述した値をシステム指定の値に変換 */
-
-    // 収支区分が列挙されたMapオブジェクト
-    const mapDEAL_TYPE = new Enum().DEAL_TYPE;
-
-    // 取引先名が列挙されたMapオブジェクト
-    const mapPartners = new Partners(this.accessToken, this.company_id).mapIdName();
-
-    // 勘定科目名が列挙されたMapオブジェクト
-    const mapAccountItems = new AccountItems(this.accessToken, this.company_id).mapIdName();
-
-    // 税区分名が列挙されたMapオブジェクト
-    const mapTaxes = new Taxes(this.accessToken, this.company_id).mapCodeName();
-
-    // 品目名が列挙されたMapオブジェクト
-    const mapItems = new Items(this.accessToken, this.company_id).mapIdName();
-
-    // 部門名が列挙されたMapオブジェクト
-    const mapSections = new Sections(this.accessToken, this.company_id).mapIdName();
-
-    // メモタグ名が列挙されたMapオブジェクト
-    const mapTags = new Tags(this.accessToken, this.company_id).mapIdName();
-
-    // 口座名が列挙されたMapオブジェクト
-    const mapWallets = new Walletables(this.accessToken, this.company_id).mapIdName();
-
-    // 口座IDと区分が列挙されたMapオブジェクト
-    const mapWalletTypes = new Walletables(this.accessToken, this.company_id).mapIdType();
-
-    // 証憑メモが列挙されたMapオブジェクト
-    const mapReceipts = new Receipts(this.accessToken, this.company_id).mapIdName();
+    // HTTPリクエストでエラーを出さずにレスポンスに状況を出力させるオプション
+    this.apiRequest.paramsPost.muteHttpExceptions = true;
+    
+    // 日本語で記述した値をシステム指定の値に変換
+    const mapDEAL_TYPE = new Enum().DEAL_TYPE;　    // 収支区分が列挙されたMapオブジェクト
+    const mapPartners = new Partners(this.accessToken, this.company_id).mapIdName(); // 取引先名が列挙されたMapオブジェクト
+    const mapAccountItems = new AccountItems(this.accessToken, this.company_id).mapIdName(); // 勘定科目名が列挙されたMapオブジェクト
+    const mapTaxes = new Taxes(this.accessToken, this.company_id).mapCodeName(); // 税区分名が列挙されたMapオブジェクト
+    const mapItems = new Items(this.accessToken, this.company_id).mapIdName(); // 品目名が列挙されたMapオブジェクト
+    const mapSections = new Sections(this.accessToken, this.company_id).mapIdName(); // 部門名が列挙されたMapオブジェクト
+    const mapTags = new Tags(this.accessToken, this.company_id).mapIdName(); // メモタグ名が列挙されたMapオブジェクト
+    const mapWallets = new Walletables(this.accessToken, this.company_id).mapIdName(); // 口座名が列挙されたMapオブジェクト   
+    const mapWalletTypes = new Walletables(this.accessToken, this.company_id).mapIdType(); // 口座IDと区分が列挙されたMapオブジェクト
+    const mapReceipts = new Receipts(this.accessToken, this.company_id).mapIdName(); // 証憑メモが列挙されたMapオブジェクト
 
     /**
      * 日本語ヘッダー項目をプロパティに持つオブジェクトの配列から取引1件（複数明細対応）ごとに登録していく関数
      * @params  {Array.<Object>}  dealContents - this.objPostの各値（日本語）をプロパティにしたオブジェクト（取引明細）を格納した配列
-     * @return  {Object}  response - 取引情報を格納したオブジェクト
+     * @return  {Array.<Object>}  aryResult - 登録キーとレスポンスを格納した配列
      */
 
     const postDealFromData = (dealContents) => {
@@ -205,7 +188,7 @@ class Deal {
         // 支払日
         payment.from_walletable_id = MapObject.convertValue2Key(mapWallets, payment.from_walletable_id);
         payment.from_walletable_type = mapWalletTypes.get(payment.from_walletable_id);
-        payment.date = new DateFormat(payment.date).string;
+        if (payment.from_walletable_id) { payment.date = new DateFormat(payment.date).string; } // スプレッドシート空欄でも表示形式が日付だと1970-01-01が取得されるため
       });
 
       // 証憑ファイルメモ
@@ -223,13 +206,20 @@ class Deal {
     const uniqueKeys = postDeals_DataSheet.getUniqueKeys(groupKey);
     const dealsObjs = postDeals_DataSheet.rangeToDataObjs();
 
+    const aryResult = new Array(); // キーとエラーを含む全レスポンスを格納する配列を生成
+
     uniqueKeys.forEach(key => {
       const dealContents = dealsObjs.filter(content => content[groupKey] === key);
-      postDealFromData(dealContents);
+      const dealPosted = postDealFromData(dealContents);
+      const objRespose = {
+        key: key,
+        response: dealPosted
+      };
+      aryResult.push(objRespose);
     });
 
-    // 戻り値として更新したセル範囲
-    return postDeals_DataSheet.rangeData;
+    // 戻り値としてキーとレスポンスを含むオブジェクトを返す
+    return aryResult;
   }
 
   /**

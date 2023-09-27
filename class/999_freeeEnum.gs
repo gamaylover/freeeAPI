@@ -22,6 +22,10 @@
  * COMMENT_STATUS - コメント状態
  * ADJUSTMENT - 決算整理仕訳
  * RECEIPT_STATUS - 証憑状態
+ * DEAL_STATUS - 取引ステータス
+ * SENDING_STATUS - 送付ステータス
+ * CANCEL_STATUS - 取消済み
+ * 
  * 
  * メソッド
  * convertValue2Key(enumType, trgValue) - 指定した列挙型Mapオブジェクトを参照して値からキーを返すメソッド
@@ -186,7 +190,7 @@ class Enum {
     // 支払方法種別
     this.PAYMENT_TYPE = new Map([
       ['transfer', '振込'],
-      ['direct_debit', '引き落とし']
+      ['direct_debit', '振替']
     ]);
 
     // 請求書レイアウト
@@ -202,9 +206,16 @@ class Enum {
     ]);
 
     // 請求書の消費税計算方法
+    // 新請求書API移行後廃止
     this.TAX_ENTRY_METHOD = new Map([
       ['inclusive', '内税'],
       ['exclusive', '外税']
+    ]);
+
+    // 請求書の消費税計算方法
+    this.NEW_TAX_ENTRY_METHOD = new Map([
+      ['in', '内税'],
+      ['out', '外税']
     ]);
 
     // 貸借
@@ -238,6 +249,48 @@ class Enum {
       ['ignored', '無視']
     ]);
 
+    // 取引ステータス
+    this.DEAL_STATUS = new Map([
+      ['registered', '登録済み'],
+      ['unregistered', '登録待ち']
+    ]);
+
+    // 送付ステータス
+    this.SENDING_STATUS = new Map([
+      ['sent', '送付済み'],
+      ['unsent', '送付待ち']
+    ]);
+
+    // 取消ステータス
+    this.CANCEL_STATUS = new Map([
+      ['canceled', '該当する'],
+      ['uncanceled', '該当しない']
+    ]);
+
+    // 消費税端数の計算方法
+    this.TAX_FRACTION = new Map([
+      ['omit', '切り捨て'],
+      ['round_up', '切り上げ'],
+      ['round', '四捨五入']
+    ]);
+
+    // 源泉徴収の計算方法
+    this.WITHHOLDING_TAX_ENTRY_METHOD = new Map([
+      ['in', '税込計算'],
+      ['out', '税別計算']
+    ]);
+    // 明細の種類
+    this.LINES_TYPE = new Map([
+      ['item', '品目行'],
+      ['text', 'テキスト行']
+    ]);
+
+    // 税率
+    this.LINES_TAX_RATE = new Map([
+      [0, '税0%'],
+      [8, '税8%'],
+      [10, '税10%']
+    ]);
   }
 
   /**

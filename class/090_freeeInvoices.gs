@@ -24,8 +24,8 @@ class Invoices {
 
   /**
    * 請求書一覧操作のためのリクエストURLを定義するコンストラクタ
-   * @parama  {string}  accessToken - アクセストークン
-   * @params  {number}  company_id - 事業所ID
+   * @param  {string}  accessToken - アクセストークン
+   * @param  {number}  company_id - 事業所ID
    */
 
   constructor(accessToken, company_id) {
@@ -158,7 +158,7 @@ class Invoices {
       web_confirmed_at: 'Web共有取引先確認日時(最新)',
       mail_sent_at: 'メール送信日時(最新)',
       posting_status: '郵送ステータス',
-      partner_name: '取引先名',
+      partner_name: '取引先',
       partner_display_name: '請求書に表示する取引先名',
       partner_title: '敬称（御中、様、(空白)の3つから選択）',
       partner_zipcode: '郵便番号',
@@ -177,7 +177,7 @@ class Invoices {
       payment_type: '支払方法',
       payment_bank_info: '支払口座',
       message: 'メッセージ',
-      notes: '備考',
+      notes: '請求書備考',
       invoice_layout: '請求書レイアウト',
       tax_entry_method: '請求書の消費税計算方法',
       deal_id: '取引ID',
