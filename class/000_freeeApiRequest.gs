@@ -27,7 +27,7 @@ class ApiRequest {
    */
   constructor(accessToken) {
     this.accessToken = accessToken;
-    this.urlAccount = 'https://api.freee.co.jp/';
+    this.urlAccount = 'https://api.freee.co.jp/'; 
 
     this.paramsGet = {
       headers: { Authorization: `Bearer ${this.accessToken}` },

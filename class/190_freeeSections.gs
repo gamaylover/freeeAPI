@@ -12,7 +12,7 @@
  * getAllSections() - 部門一覧を配列で取得するメソッド
  * mapIdName() - freeeAPIのIDと部門名が列挙されたMapオブジェクトを生成するメソッド
  * getIdByName(name) - 部門名からfreeeAPIのIDを取得するメソッド
- * getections2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの部門一覧を更新するメソッド
+ * getSections2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの部門一覧を更新するメソッド
  * 
  */
 
@@ -86,7 +86,7 @@ class Sections {
    * @return  {SpreadsheetApp.Range} データ更新した範囲のRangeオブジェクト
    */
 
-  getections2Sheet(sheetName) {
+  getSections2Sheet(sheetName) {
     
     const arySections = this.getAllSections();
     const objHeader = {

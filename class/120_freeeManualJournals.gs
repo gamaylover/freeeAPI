@@ -12,7 +12,7 @@
  * メソッド
  * getURL() - 指定した条件の振替伝票一覧のリクエストURLを返すメソッド
  * getAllManualJournals() - 指定した条件の全ての振替伝票一覧を配列で取得するメソッド
- * getManualJournals2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートの振替伝票一覧を更新するメソッド
+ * getManualJournals2Sheet(sheetName) - アクティブなスプレッドシートのシート名で指定したシートに振替伝票一覧を取得するメソッド
  * 
  */
 

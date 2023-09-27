@@ -180,26 +180,17 @@ class ObjectJSON {
 
     Object.keys(obj).forEach(key => {
       const value = obj[key]
-
-      // 値がnullでないオブジェクト
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) { this.deleteBlankProperties(value) };
-      // プロパティを持たないオブジェクト
-      if (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0) { delete obj[key] };
-      // 要素が1以上の配列かつ要素の配列が空のオブジェクト
-      if (typeof value === 'object' && Array.isArray(value) && value.length > 0 && value.every(element => typeof element === 'object') && value.every(objTest => isBlankObj(objTest))) { delete obj[key] };
-      // 要素が1以上の配列
-      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { this.deleteBlankProperties(value) };
-      // 要素が0の配列
-      if (typeof value === 'object' && Array.isArray(value) && value.length === 0) { delete obj[key] };
-
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) { this.deleteBlankProperties(value) }; // 値がnullでないオブジェクト
+      if (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0) { delete obj[key] }; // プロパティを持たないオブジェクト
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0 && value.every(element => typeof element === 'object') && value.every(objTest => isBlankObj(objTest))) { delete obj[key] }; // 要素が1以上の配列かつ要素の配列が空のオブジェクト
+      if (typeof value === 'object' && Array.isArray(value) && value.length > 0) { this.deleteBlankProperties(value) }; // 要素が1以上の配列    
+      if (typeof value === 'object' && Array.isArray(value) && value.length === 0) { delete obj[key] }; // 要素が0の配列
       if (value === null) { delete obj[key] };
       if (value === undefined) { delete obj[key] };
       if (value === '') { delete obj[key] };
     });
     return obj;
   }
-
-
 
   /**
    * オブジェクトからテンプレートのキー一覧との共通しないプロパティを削除するメソッド
@@ -216,7 +207,6 @@ class ObjectJSON {
     diffKeys.forEach(difKey => delete obj[difKey]);
     return obj;
   }
-
 
   /**
    * オブジェクトの複数階層にわたったユニークなキーの一覧を取得するメソッド
