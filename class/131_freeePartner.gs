@@ -42,18 +42,20 @@ class Partner {
       company_id: '事業所ID',
       name: '取引先名',
       code: '取引先コード',
-      shortcut1: 'ショートカット1 (20文字以内)',
-      shortcut2: 'ショートカット2 (20文字以内)',
+      shortcut1: 'ショートカット１',
+      shortcut2: 'ショートカット２',
       org_code: '事業所種別',
       country_code: '地域',
-      long_name: '正式名称（255文字以内）',
-      name_kana: 'カナ名称（255文字以内）',
-      default_title: '敬称（御中、様、(空白)の3つから選択）',
+      long_name: '正式名称',
+      name_kana: 'カナ名称',
+      default_title: '敬称',
       phone: '電話番号',
-      contact_name: '担当者 氏名',
-      email: '担当者 メールアドレス',
-      payer_walletable_id: '振込元口座（一括振込ファイル用）',
-      transfer_fee_handling_side: '振込手数料負担（一括振込ファイル用）',
+      contact_name: '担当者氏名',
+      email: '担当者メールアドレス',
+      payer_walletable_id: '振込元口座',
+      transfer_fee_handling_side: '振込手数料負担',
+      qualified_invoice_issuer: 'インボイス制度適格請求書発行事業者',
+      invoice_registration_number: 'インボイス制度適格請求書発行事業者登録番号',
       address_attributes: {
         zipcode: '郵便番号',
         prefecture_code: '都道府県',
@@ -72,36 +74,38 @@ class Partner {
         branch_code: '支店番号',
         account_type: '口座種別',
         account_number: '口座番号',
-        account_name: '受取人名（カナ）',
-        long_account_name: '受取人名'
+        long_account_name: '受取人名',
+        account_name: '受取人名（カナ）'
       },
       payment_term_attributes: {
-        cutoff_day: '締め日（支払期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）',
-        additional_months: '支払月（支払期日設定）',
-        fixed_day: '支払日（支払期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）'
+        cutoff_day: '支払締め日',
+        additional_months: '支払月',
+        fixed_day: '支払日'
       },
       invoice_payment_term_attributes: {
-        cutoff_day: '入金月（入金期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）',
-        additional_months: '入金月（入金期日設定）',
-        fixed_day: '入金日（入金期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）'
+        cutoff_day: '入金締め日',
+        additional_months: '入金月',
+        fixed_day: '入金日'
       }
     };
 
     this.objPut = {
       company_id: '事業所ID',
       name: '取引先名',
-      shortcut1: 'ショートカット1 (20文字以内)',
-      shortcut2: 'ショートカット2 (20文字以内)',
+      shortcut1: 'ショートカット１',
+      shortcut2: 'ショートカット２',
       org_code: '事業所種別',
       country_code: '地域',
-      long_name: '正式名称（255文字以内）',
-      name_kana: 'カナ名称（255文字以内）',
-      default_title: '敬称（御中、様、(空白)の3つから選択）',
+      long_name: '正式名称',
+      name_kana: 'カナ名称',
+      default_title: '敬称',
       phone: '電話番号',
-      contact_name: '担当者 氏名',
-      email: '担当者 メールアドレス',
-      payer_walletable_id: '振込元口座（一括振込ファイル用）',
-      transfer_fee_handling_side: '振込手数料負担（一括振込ファイル用）',
+      contact_name: '担当者氏名',
+      email: '担当者メールアドレス',
+      payer_walletable_id: '振込元口座',
+      transfer_fee_handling_side: '振込手数料負担',
+      qualified_invoice_issuer: 'インボイス制度適格請求書発行事業者',
+      invoice_registration_number: 'インボイス制度適格請求書発行事業者登録番号',
       address_attributes: {
         zipcode: '郵便番号',
         prefecture_code: '都道府県',
@@ -120,18 +124,18 @@ class Partner {
         branch_code: '支店番号',
         account_type: '口座種別',
         account_number: '口座番号',
-        account_name: '受取人名（カナ）',
-        long_account_name: '受取人名'
+        long_account_name: '受取人名',
+        account_name: '受取人名（カナ）'
       },
       payment_term_attributes: {
-        cutoff_day: '締め日（支払期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）',
-        additional_months: '支払月（支払期日設定）',
-        fixed_day: '支払日（支払期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）'
+        cutoff_day: '支払締め日',
+        additional_months: '支払月',
+        fixed_day: '支払日'
       },
       invoice_payment_term_attributes: {
-        cutoff_day: '入金月（入金期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）',
-        additional_months: '入金月（入金期日設定）',
-        fixed_day: '入金日（入金期日設定）（29, 30, 31日の末日を指定する場合は、32を指定してください。）'
+        cutoff_day: '入金締め日',
+        additional_months: '入金月',
+        fixed_day: '入金日'
       }
     };
   }

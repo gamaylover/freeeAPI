@@ -154,23 +154,25 @@ class Partners {
       code: '取引先コード',
       company_id: '事業所ID',
       name: '取引先名',
-      update_date: '更新日 (yyyy-MM-dd)',
-      available: '取引先の使用設定（true: 使用する、false: 使用しない）',
-      shortcut1: 'ショートカット1 (20文字以内)',
-      shortcut2: 'ショートカット2 (20文字以内)',
+      update_date: '更新日',
+      available: '取引先の使用設定',
+      shortcut1: 'ショートカット1',
+      shortcut2: 'ショートカット2',
       org_code: '事業所種別',
       country_code: '地域',
-      long_name: '正式名称（255文字以内）',
-      name_kana: 'カナ名称（255文字以内）',
-      default_title: '敬称（御中、様、(空白)の3つから選択）',
+      long_name: '正式名称',
+      name_kana: 'カナ名称',
+      default_title: '敬称',
       phone: '電話番号',
-      contact_name: '担当者 氏名',
-      email: '担当者 メールアドレス',
-      payer_walletable_id: '振込元口座（一括振込ファイル用）',
-      transfer_fee_handling_side: '振込手数料負担（一括振込ファイル用）',
+      contact_name: '担当者氏名',
+      email: '担当者メールアドレス',
+      payer_walletable_id: '振込元口座',
+      transfer_fee_handling_side: '振込手数料負担',
+      qualified_invoice_issuer: 'インボイス制度適格請求書発行事業者',
+      invoice_registration_number: 'インボイス制度適格請求書発行事業者登録番号',
       address_attributes: {
         zipcode: '郵便番号',
-        prefecture_code: '都道府県',
+        prefecture_code: '都道府県コード',
         street_name1: '市区町村・番地',
         street_name2: '建物名・部屋番号など'
       },
@@ -199,8 +201,8 @@ class Partners {
       return headerKeys.map(key => {
         if (objHeaderFlat[key] === '事業所種別') { return mapORG_CODE.get(objPartnerFlat[key]) };
         if (objHeaderFlat[key] === '地域') { return mapCOUNTRY_CODE.get(objPartnerFlat[key]) };
-        if (objHeaderFlat[key] === '振込元口座（一括振込ファイル用）') { return mapWallets.get(objPartnerFlat[key]) };
-        if (objHeaderFlat[key] === '振込手数料負担（一括振込ファイル用）') { return mapTRANSFER_FEE_HANDLING_SIDE.get(objPartnerFlat[key]) };
+        if (objHeaderFlat[key] === '振込元口座') { return mapWallets.get(objPartnerFlat[key]) };
+        if (objHeaderFlat[key] === '振込手数料負担') { return mapTRANSFER_FEE_HANDLING_SIDE.get(objPartnerFlat[key]) };
         if (objHeaderFlat[key] === '都道府県') { return mapPREFECTURE_CODES.get(objPartnerFlat[key]) };
         if (objHeaderFlat[key] === '請求書送付方法') { return mapSENDING_METHOD.get(objPartnerFlat[key]) };
         if (objHeaderFlat[key] === '口座種別') { return mapACCOUNT_TYPE.get(objPartnerFlat[key]) };
